@@ -8,5 +8,5 @@
 - 🤔 I’m looking for help with ...
 - 💬 Ask me about ... -->
 - 📫 How to reach me: [jossayacamille@gmail.com](mailto:jossayacamille@gmail.com)
-- ⚡ Fun fact: One of my major projects was actually for my parents' bakery!
+- <!--⚡ Fun fact: One of my major projects was actually for my parents' bakery! -->
 
