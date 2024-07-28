@@ -1,12 +1,26 @@
-import React, { useEffect, useState, useRef } from 'react';
-import ScrollAnimation from '../scrollanimation/ScrollAnimation';
+import React, {useRef, useEffect, useState} from 'react';
+import ScrollAnimation from '../../components/scrollanimation/ScrollAnimation';
 import './Home.css';
-import my_face from '../assets/143653842.jpg'
+import my_face from '../../assets/143653842.jpg'
+import Header from '../../components/header/Header';
+
 function Home() {
+    const headerRef = useRef(null);
+    const BannerRef = useRef(null);
+    useEffect(() => {
+        if(headerRef.current && BannerRef.current){
+        const rectA = headerRef.current.getBoundingClientRect();
+        const rectB = BannerRef.current.getBoundingClientRect();
+        if(rectA.bottom > rectB.top){
+            headerRef.current.style.backgroundColor = 'blue'
+        }
+    }
+    },[])
     return (
     <>
+        <Header links={[{'Home': '/','About':'/about'}]} ref={headerRef}/>
         <ScrollAnimation>
-        <div className='banner'>
+        <div className='banner' ref={BannerRef}>
                     <img style={{borderRadius: "50%", width: "20%"}}src={my_face} alt="my face" />
                     <h1>Jossaya Camille</h1>
                     <p>A high school student and aspiring software engineer with a lot of free time.</p>

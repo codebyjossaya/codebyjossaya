@@ -1,0 +1,26 @@
+.header {
+    background: #35424a;
+    color: #ffffff;
+    min-height: 70px;
+    z-index: 30;
+  }
+  
+.header-top {
+    background: transparent;
+    color: #ffffff;
+    min-height: 70px;
+    z-index: 30;
+  }
+
+.header > div > a:link, .header > div > a:visited {
+    color: #ffffff;
+    text-decoration: none;
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.header > div > a:hover {
+    background-color: white;
+    color: #000000;
+    text-decoration: none;
+    transform: scale(1.3);
+}

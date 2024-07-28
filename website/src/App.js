@@ -1,7 +1,7 @@
 
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './home/Home';
+import Home from './pages/home/Home';
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 
