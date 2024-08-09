@@ -1,26 +1,16 @@
-import React, {useRef, useEffect, useState} from 'react';
+import React from 'react';
 import ScrollAnimation from '../../components/scrollanimation/ScrollAnimation';
 import './Home.css';
 import my_face from '../../assets/143653842.jpg'
-import Header from '../../components/header/Header';
+import Grid from '../../components/grid/Grid';
+import Button, {link} from '../../components/button/Button';
 
+//import {useSpring,animated} from '@react-spring/web'
 function Home() {
-    const headerRef = useRef(null);
-    const BannerRef = useRef(null);
-    useEffect(() => {
-        if(headerRef.current && BannerRef.current){
-        const rectA = headerRef.current.getBoundingClientRect();
-        const rectB = BannerRef.current.getBoundingClientRect();
-        if(rectA.bottom > rectB.top){
-            headerRef.current.style.backgroundColor = 'blue'
-        }
-    }
-    },[])
     return (
     <>
-        <Header links={[{'Home': '/','About':'/about'}]} ref={headerRef}/>
         <ScrollAnimation>
-        <div className='banner' ref={BannerRef}>
+        <div className='banner'>
                     <img style={{borderRadius: "50%", width: "20%"}}src={my_face} alt="my face" />
                     <h1>Jossaya Camille</h1>
                     <p>A high school student and aspiring software engineer with a lot of free time.</p>
@@ -38,13 +28,18 @@ function Home() {
             <div className='banner'>
                 <h2>Projects</h2>
                 <p>Here are some of the projects I've worked on:</p>
-                <ul>
-                    <li>My personal website</li>
-                    <li>Tic Tac Toe Online</li>
-                    <li>Arc</li>
-                    <li>WebWrite</li>
-                    <li>Ping Pong Online</li>
-                </ul>
+                <Grid>
+                    <div>
+                        <h1>WebWrite</h1>
+                        <p>A text-to-HTML converter that will allow users to write text and convert it to HTML code.</p>
+                        <Button onClick={link('https://github.com/jcamille2023/webwrite')} label="GitHub" />
+                    </div>
+                    <div>
+                        <h1>Arc</h1>
+                        <p>Arc is a online chat app using Firebase services and pure JavaScript to deliver a social experience for users.</p>
+                        <Button onClick={link('https://github.com/chat-on-arc/chat-on-arc.github.io')} label="GitHub" />
+                    </div>
+                </Grid>
             </div>
         </ScrollAnimation>
         
