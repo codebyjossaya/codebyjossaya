@@ -43,7 +43,10 @@ function Home() {
                         description="Arc is a online chat app using Firebase services and pure JavaScript to deliver a social experience for users."
                         buttonLabel={"GitHub"}
                         buttonLink={'https://github.com/chat-on-arc/chat-on-arc.github.io'}
-                    />
+
+                    >
+                        <Button label={"Try Arc"} onClick={link('https://chat-on-arc.github.io')} />
+                    </GridItem>
                     <GridItem 
                         title="ALSET Solar Cybersedan Software"
                         description={"Myself and a team of 3 others built a comprehensive software ecosystem for the SolarCybersedan as part of the FAU High School Advanced Experimental Vehicles club. Learn more on the GitHub page."}

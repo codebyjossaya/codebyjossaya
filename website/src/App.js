@@ -2,6 +2,7 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/home/Home';
+import About from './pages/about/About';
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 
@@ -26,6 +27,7 @@ function App() {
   <Router>
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
     </Routes>
   </Router>
   );
