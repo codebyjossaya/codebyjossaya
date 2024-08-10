@@ -5,6 +5,7 @@ import Home from './pages/home/Home';
 import About from './pages/about/About';
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { useState } from 'react';
 
 
 const firebaseConfig = {
@@ -20,10 +21,14 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
-
-
+let other_element;
+let render_func;
 function App() {
-  return (
+  const [other_render,setRenderTrigger] = useState(false);
+  const [ele,setEle] = useState(null)
+  render_func = setRenderTrigger;
+  other_element = setEle;
+  return other_render ? ele : (
   <Router>
     <Routes>
       <Route path="/" element={<Home />} />
@@ -33,5 +38,11 @@ function App() {
   );
 }
 
+function RenderOtherElement({children}) {
+  other_element(children);
+  render_func(true);
+}
+
+
 export default App;
-export { app, analytics };  // Export the app and analytics objects for use in other files
+export { app, analytics, RenderOtherElement };  // Export the app and analytics objects for use in other files

@@ -5,6 +5,9 @@ import my_face from '../../assets/143653842.jpg'
 import Grid from '../../components/grid/Grid';
 import Button, {link} from '../../components/button/Button';
 import GridItem from '../../components/grid/GridItem';
+import { RenderOtherElement } from '../../App';
+import About from '../about/About';
+import Footer from '../../components/footer/Footer';
 
 //import {useSpring,animated} from '@react-spring/web'
 function Home() {
@@ -23,7 +26,9 @@ function Home() {
                 <p>I am an FAU High School student seeking to major in either Computer Science or Computer Engineering.</p>
                 <p>I'm currently learning C++ as part of the university curriculum and am planning to learn React Native</p>
                 <p>I've learned Python, C, JavaScript, TypeScript, and React.</p>
-                <Button label={"Learn more"} onClick={link('./about')} />
+                <Button label={"Learn more"} onClick={() => {
+                    RenderOtherElement({children: <About />})
+                }} />
             </div>
         </ScrollAnimation>
         <ScrollAnimation>
@@ -58,6 +63,7 @@ function Home() {
                 <Button label={"View more on the Projects page"} onClick={link('./projects')} />
             </div>
         </ScrollAnimation>
+        <Footer />
         
     </>
     );
