@@ -35,7 +35,7 @@ function Home() {
                         title="WebWrite"
                         description="A text-to-HTML converter that will allow users to write text and convert it to HTML code."
                         buttonLabel={"GitHub"}
-                        buttonLink={"https://github.com/jcamille2023/webwrite"}
+                        buttonLink="https://github.com/jcamille2023/webwrite"
                     />
 
                     <GridItem 

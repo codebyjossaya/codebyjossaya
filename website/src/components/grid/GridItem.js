@@ -6,7 +6,7 @@ function GridItem({title,description,buttonLabel,buttonLink}) {
         <div className="grid-item" style={{marginTop: '4%',marginBottom:'4%',marginLeft:"4%",marginRight:"4%"}}>
             <h1>{title}</h1>
             <p>{description}</p>
-            <Button link={link(buttonLink)} label={buttonLabel} />
+            <Button onClick={link(buttonLink)} label={buttonLabel} />
         </div>
     )
 }
