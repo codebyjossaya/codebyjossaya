@@ -10,7 +10,7 @@
 
 .btn-custom:hover {
     background-color: black;
-    color:white;
+    color:white !important;
     cursor: pointer;
     scale: 1.1;
 }

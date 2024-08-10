@@ -33,7 +33,7 @@ function Home() {
                 <Grid>
                     <GridItem 
                         title="WebWrite"
-                        description="A text-to-HTML converter that will allow users to write text and convert it to HTML code."
+                        description="A text-to-HTML converter that will allow users to embed their writing in formats suitable for the web."
                         buttonLabel={"GitHub"}
                         buttonLink="https://github.com/jcamille2023/webwrite"
                     />
@@ -44,7 +44,15 @@ function Home() {
                         buttonLabel={"GitHub"}
                         buttonLink={'https://github.com/chat-on-arc/chat-on-arc.github.io'}
                     />
+                    <GridItem 
+                        title="ALSET Solar Cybersedan Software"
+                        description={"Myself and a team of 3 others built a comprehensive software ecosystem for the SolarCybersedan as part of the FAU High School Advanced Experimental Vehicles club. Learn more on the GitHub page."}
+                        buttonLabel={"GitHub"}
+                        buttonLink={'https://github.com/YamanDevelopment/AEV-Software'}
+                    />
                 </Grid>
+                <br></br>
+                <Button label={"View more on the Projects page"} onClick={link('./projects')} />
             </div>
         </ScrollAnimation>
         
