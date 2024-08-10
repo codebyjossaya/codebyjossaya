@@ -18,7 +18,11 @@ jobs:
           cd website
           npm ci
           npm run build
-
+      - name: Prep Firebase for Deployment
+        run: /
+      - name: Prepare Firebase Configuration
+        run: |
+          ln -s website/firebase.json firebase.json  # Create a symlink to firebase.json in the root directory
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
