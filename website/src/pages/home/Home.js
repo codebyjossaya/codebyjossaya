@@ -14,27 +14,31 @@ function Home() {
     return (
     <>
         <ScrollAnimation>
-        <div className='banner'>
-                    <img style={{borderRadius: "50%", width: "20%"}}src={my_face} alt="my face" />
+        <div className='banner' style={{display:"grid", gridTemplateColumns:"50% 50%"}}>
+                    <div>
                     <h1>Jossaya Camille</h1>
-                    <p>A high school student and aspiring software engineer with a lot of free time.</p>
-        </div>
+                    <p>A high school student and aspiring computer engineer with a lot of free time.</p>
+                    </div>
+                    <img style={{borderRadius: "50%", width: "40%", marginLeft:"50%"}}src={my_face} alt="my face" />
+                    
+        </div>  
         </ScrollAnimation>
-        <ScrollAnimation>
-            <div className='banner'>
-                <h2>About Me</h2>
-                <p>I am an FAU High School student seeking to major in either Computer Science or Computer Engineering.</p>
-                <p>I'm currently learning C++ as part of the university curriculum and am planning to learn React Native</p>
-                <p>I've learned Python, C, JavaScript, TypeScript, and React.</p>
+            <div style={{color: 'white', margin: "100px",padding:"20px"}}>
+                <h1>About Me</h1>
+                <p>I'm a high school student planning to pursue a career in computer science & engineering.</p>
+                <p>I have previous research experience with AI, computer vision, and web development.</p>
+                <p>I'm currently looking to expand my skills into low-level programming, UI design, cybersecurity, computer design, and further AI work.</p>
+
                 <Button label={"Learn more"} onClick={() => {
                     RenderOtherElement({children: <About />})
                 }} />
             </div>
-        </ScrollAnimation>
-        <ScrollAnimation>
-            <div className='banner'>
-                <h2>Projects</h2>
-                <p>Here are some of the projects I've worked on:</p>
+            <div style={{color: 'white', margin: "100px",paddingLeft:"20px",paddingRight:"20px",marginBottom:"5px"}}>
+            <h1>Projects</h1>
+            <p>Here are some of the projects I've worked on:</p>
+            </div>
+            
+            <div className='banner' style={{marginTop:"0px"}}>
                 <Grid>
                     <GridItem 
                         title="WebWrite"
@@ -62,8 +66,7 @@ function Home() {
                 <br></br>
                 <Button label={"View more on the Projects page"} onClick={link('./projects')} />
             </div>
-        </ScrollAnimation>
-        <Footer />
+      
         
     </>
     );
