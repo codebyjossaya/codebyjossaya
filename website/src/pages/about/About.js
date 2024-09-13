@@ -1,6 +1,6 @@
 import React from "react";
-import ScrollAnimation from "../../components/scrollanimation/ScrollAnimation";
-import Grid from "../../components/grid/Grid";
+//import ScrollAnimation from "../../components/scrollanimation/ScrollAnimation";
+//import Grid from "../../components/grid/Grid";
 
 function About() {
     return (

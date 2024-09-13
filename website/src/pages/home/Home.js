@@ -7,7 +7,7 @@ import Button, {link} from '../../components/button/Button';
 import GridItem from '../../components/grid/GridItem';
 import { RenderOtherElement } from '../../App';
 import About from '../about/About';
-import Footer from '../../components/footer/Footer';
+//import Footer from '../../components/footer/Footer';
 
 //import {useSpring,animated} from '@react-spring/web'
 function Home() {
