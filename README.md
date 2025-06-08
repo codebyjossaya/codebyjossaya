@@ -1,9 +1,8 @@
 # Jossaya Camille
 
-- 📚 Dual enrolled senior at FAU High School
-- 🔭 I’m currently working on [Arc](https://github.com/jcamille2023/arc) and [my personal page](https://jcamille2023.github.io).
-- ✔️ I have completed projects like [Tic Tac Toe Online](https://github.com/jcamille2023/tictactoe/multiplayer), [Ping Pong Online](https://jcamille2023.github.io/pong)
-- 🌱 I’m currently learning C++ and React Native.
+- 📚 Freshman at the University of Florida
+- 🔭 I’m currently working on [VaultTune](https://github.com/codebyjossaya/vt_backend) and [my personal page](https://jcamille.tech).
+- 🌱 I’m currently learning C++.
 - I know JavaScript, C, React, and Python.
 - [Visit my website](https://jcamille.tech)
 <!-- - 👯 I’m looking to collaborate on ...
