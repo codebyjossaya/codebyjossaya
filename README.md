@@ -9,5 +9,4 @@
 - 🤔 I’m looking for help with ...
 - 💬 Ask me about ... -->
 - 📫 How to reach me: [jossayacamille@gmail.com](mailto:jossayacamille@gmail.com)
-- <!--⚡ Fun fact: One of my major projects was actually for my parents' bakery! -->
-
+  [![Hackatime Badge](https://github-readme-stats.hackclub.dev/api/wakatime?username=16021&api_domain=hackatime.hackclub.com&theme=darcula&custom_title=Hackatime+Stats&layout=compact&cache_seconds=0&langs_count=8)]
