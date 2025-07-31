@@ -145,7 +145,9 @@ export default function Home() {
           <div className="flex-1 text-center min-w-0">
             <h3 className="text-2xl font-bold">Hi, I'm Jossaya</h3>
               <p className="break-words">
-                I'm a freshman at the University of Florida studying Computer Engineering with research interests in machine learning, computer vision, and robotics. I graduated from FAU High School in 2025, where I won a research grant for my work to apply human pose estimation models to estimate gait metrics.
+                I'm a freshman at the University of Florida studying Computer Engineering with research interests in machine learning, 
+                computer vision, and robotics. I graduated from FAU High School in 2025, where I won a research grant for my foundational 
+                work to apply human pose estimation models to estimate gait metrics for early diagnosis of neurodegenerative diseases.
               </p>
               <span className="flex justify-center items-center mt-4 gap-4">
                 {socialIcons.map(({ icon: Icon, name, link }) => (
@@ -238,7 +240,7 @@ export default function Home() {
             <div>
               <p>Made with ❤️ by Jossaya Camille</p>
               <p>Built with React Router</p>
-              <a className="footer-link" href="github.com/codebyjossaya/codebyjossaya/tree/main/newsite">GitHub Repo</a>
+              <a className="footer-link" href="https://github.com/codebyjossaya/codebyjossaya/tree/main/newsite">GitHub Repo</a>
             </div>
             <div>
               <p>Frequent collaborators</p>
