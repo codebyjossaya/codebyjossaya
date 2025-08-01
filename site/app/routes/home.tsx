@@ -77,7 +77,6 @@ export default function Home() {
       images: [
         "/hpe/hpe-1.jpg",
         "/hpe/hpe-2.jpg",
-        "/hpe/hpe-3.png",
       ],
       links: [
         {
@@ -111,9 +110,9 @@ export default function Home() {
     }
   ]
   return (
-    <div className="">
+    <div className="flex flex-col justify-center items-center max-w-full">
       
-      <div className="h-[95vh] flex flex-col justify-end items-start
+      <div className="h-[95vh] w-[100vw] flex flex-col justify-end items-start
                     text-white bg-[url('/IMG_1796.jpg')] 
                       bg-no-repeat bg-cover bg-contain bg-[center_top_30%] ">
         <p
@@ -125,7 +124,7 @@ export default function Home() {
          April 2025 - Research presentation at FAU Wilkes Honors College Symposium
         </p>
       </div>
-      <header className="sticky top-0 flex bg-black/30 shadow z-50 p-4 gap-4">
+      <header className="sticky top-0 flex bg-black/30 shadow z-50 p-4 gap-4 w-[100vw]">
         <div className="ml-auto flex gap-4">
           <a onClick={(event) => {
             aboutRef ? handleScroll(event, aboutRef) : null;
@@ -139,103 +138,107 @@ export default function Home() {
 
         </div>
       </header>
-      <div className="p-8">
-        <h2 className="" ref={aboutRef}>About me</h2>
-        <div className="flex flex-col sm:flex-row gap-4 items-center my-5 w-full max-w-5xl mx-auto overflow-x-auto">
-          <div className="flex-1 text-center min-w-0">
-            <h3 className="text-2xl font-bold">Hi, I'm Jossaya</h3>
-              <p className="break-words">
-                I'm a freshman at the University of Florida studying Computer Engineering with research interests in machine learning, 
-                computer vision, and robotics. I graduated from FAU High School in 2025, where I won a research grant for my foundational 
-                work to apply human pose estimation models to estimate gait metrics for early diagnosis of neurodegenerative diseases.
-              </p>
-              <span className="flex justify-center items-center mt-4 gap-4">
-                {socialIcons.map(({ icon: Icon, name, link }) => (
-                  <a
-                    key={name}
-                    href={link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Icon className="inline-block text-2xl mx-2" />
-                  </a>
-                ))}
-              </span>
+      <div className="w-screen flex flex-col items-center">
+        <div className="max-w-[1000px] p-8">
+          <h2 className="" ref={aboutRef}></h2>
+          <div className="w-full flex flex-col sm:flex-row gap-4 items-center">
+            <div className="flex flex-col sm:flex-row gap-8 w-full items-center justify-between">
+              <div className="bg-black/20 rounded-2xl shadow-lg p-8 flex-1 min-w-[300px] max-w-2/3 text-left">
+                <h3 className="text-4xl font-extrabold mb-3">Hi, I'm Jossaya</h3>
+                <p className="text-lg leading-relaxed mb-5">
+                  I'm a freshman at the University of Florida studying Computer Engineering with research interests in machine learning, computer vision, and robotics. I graduated from FAU High School in 2025, where I won a research grant for my foundational work to apply human pose estimation models to estimate gait metrics for early diagnosis of neurodegenerative diseases.
+                </p>
+                <span className="flex gap-4 mt-2">
+                  {socialIcons.map(({ icon: Icon, name, link }) => (
+                    <a
+                      key={name}
+                      href={link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={name}
+                    >
+                      <Icon className="inline-block text-2xl mx-2 transition-transform hover:scale-110" />
+                    </a>
+                  ))}
+                </span>
+              </div>
+              <div className="flex justify-center items-center min-w-[220px] max-w-1/3 w-full">
+                <img
+                  src="5581743_7783294_84_62569047.JPG"
+                  className="object-cover rounded-2xl shadow-lg w-full max-h-[380px] aspect-[3/4] bg-black/30 pointer-events-none !transition-none"
+                  alt="Jossaya"
+                  style={{ transition: 'none' }}
+                />
+              </div>
+            </div>
           </div>
-          <div className="flex-1 flex justify-center items-center min-w-0 max-w-xs">
-            <img
-              src="5581743_7783294_84_62569047.JPG"
-              className="object-cover rounded-lg w-full max-h-full no-hover"
-              alt="Jossaya"
-              style={{ maxWidth: "100%", height: "100%" }}
-            />
-          </div>
-        </div>
+          <h2 ref={skillsRef}></h2>
+
           
-        <div>
-          <h2 ref={skillsRef}>Technical Skills</h2>
-          <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-8 gap-4 mt-10">
             {icons.map(({ icon: Icon, name }) => (
               <div key={name} className="flex flex-col items-center">
                 <Icon className="text-4xl mb-2" />
                 <span className="text-sm">{name}</span>
               </div>
             ))}
-
           </div>
         </div>
-        <h2 ref={projectsRef}>Projects</h2>
-        <div className="flex flex-col gap-0 m-0 overflow-x-auto w-full">
-            {projects.map((project) => (
-              <div key={project.name}className="text-white p-4 flex flex-col sm:flex-row w-full gap-4 items-center " style={{ background: project.background }}>
-                <div className="max-w-1/2 flex text-start flex-col lg:p-30 sm:p-0">
-                  <h2>{project.name}</h2>
-                  <p className="word-break-all">
-                    {project.description}
-                  </p>
-                  <div className="flex gap-2">
-                    {project.links.map((link) => (
-                      <a
-                        key={link.href}
-                        href={link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className=""
-                      >
-                        {link.text}
-                      </a>
-                    ))}
-                  </div>
+
+        <h2 ref={projectsRef}></h2>
+        <div className="flex flex-col gap-0 m-0 overflow-x-auto w-screen">
+          {projects.map((project) => (
+            <div
+              key={project.name}
+              className="text-white p-4 flex flex-col sm:flex-row w-full gap-4 items-center "
+              style={{ background: project.background }}
+            >
+              <div className="max-w-1/2 flex text-start flex-col lg:p-30 sm:p-0">
+                <h2>{project.name}</h2>
+                <p className="word-break-all">{project.description}</p>
+                <div className="flex gap-2">
+                  {project.links.map((link) => (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className=""
+                    >
+                      {link.text}
+                    </a>
+                  ))}
                 </div>
-                <div className="grid lg:grid-cols-2 gap-4 ml-auto lg:mr-30 w-full">
-                  {project.images.map((image, index) => {
+              </div>
+              <div className="grid lg:grid-cols-2 gap-4 ml-auto lg:mr-30 w-full">
+                {project.images.map((image, index) => {
                   // If odd number of images and this is the last image, make it span two columns
                   const isLast =
                     index === project.images.length - 1 &&
                     project.images.length % 2 !== 0;
                   return (
                     <div
-                    key={index}
-                    className={`overflow-hidden rounded-lg shadow-lg ${isLast ? "lg:col-span-2" : ""}`}
-                    style={isLast ? { width: "100%" } : {}}
+                      key={index}
+                      className={`overflow-hidden rounded-lg shadow-lg ${isLast ? "lg:col-span-2" : ""}`}
+                      style={isLast ? { width: "100%" } : {}}
                     >
-                    <a href={image} target="_blank" rel="noopener noreferrer">
-                      <img
-                      src={image}
-                      alt={`${project.name} screenshot ${index + 1}`}
-                      className="w-full h-30 object-cover"
-                      style={{ width: "100%", height: "300px" }}
-                      />
-                    </a>
+                      <a href={image} target="_blank" rel="noopener noreferrer">
+                        <img
+                          src={image}
+                          alt={`${project.name} screenshot ${index + 1}`}
+                          className="w-full h-30 object-cover"
+                          style={{ width: "100%", height: "300px" }}
+                        />
+                      </a>
                     </div>
                   );
-                  })}
-                </div>
-                </div>
-            ))}
-          </div>
+                })}
+              </div>
+            </div>
+          ))}
         </div>
-        <footer className="bg-black p-20 mt-8">
+      </div>
+        <footer className="bg-black p-20 mt-8 w-[100vw]">
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 text-gray-400 text-start">
             <div>
               <p>Made with ❤️ by Jossaya Camille</p>

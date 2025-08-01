@@ -11,10 +11,15 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
+  max-width: fit-content;
+  background-position: 10% 80%;
+  margin-left: auto;
+  margin-right: auto;
 
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
   }
+  
 }
 h1 {
   @apply text-4xl font-bold text-center text-white;
