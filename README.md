@@ -6,7 +6,7 @@
 🧠 Experienced with JavaScript/TypeScript, React, and Python  
 📬 Reach me at: [jossayacamille@gmail.com](mailto:jossayacamille@gmail.com)  
 
-🌐 [jcamille.tech](https://jcamille.tech)
+🌐 [jcamille.dev](https://jcamille.dev)
 
 ---
 
