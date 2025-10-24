@@ -2,7 +2,7 @@
 
 🎓 **Freshman @ University of Florida**  
 💻 I build things like [VaultTune](https://github.com/codebyjossaya/vt_server) and my [personal website](https://jcamille.dev)  
-📚 Currently learning C++  
+📚 Currently learning Rust 
 🧠 Experienced with JavaScript/TypeScript, React, and Python  
 📬 Reach me at: [jossayacamille@gmail.com](mailto:jossayacamille@gmail.com)  
 
