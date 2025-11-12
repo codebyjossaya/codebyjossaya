@@ -8,7 +8,6 @@
 
 🌐 [jcamille.dev](https://jcamille.dev)
 
-hi jossaya
 ---
 
 [![Hackatime Badge](https://github-readme-stats.hackclub.dev/api/wakatime?username=16021&api_domain=hackatime.hackclub.com&theme=darcula&custom_title=Hackatime+Stats&layout=compact&cache_seconds=0&langs_count=8)](https://hackatime.hackclub.com/16021)
