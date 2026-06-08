@@ -118,7 +118,7 @@ export default function Home() {
         <p
           className="px-4 py-2 rounded-xl shadow-lg m-3"
           style={{
-            background: "radial-gradient(circle at 10% 80%, #4a0292, #000000)",
+            background: "#2e0444",
           }}
         >
          April 2025 - Research presentation at FAU Wilkes Honors College Symposium
@@ -143,10 +143,10 @@ export default function Home() {
           <h2 className="" ref={aboutRef}></h2>
           <div className="w-full flex flex-col sm:flex-row gap-4 items-center">
             <div className="flex flex-col sm:flex-row gap-8 w-full items-center justify-between">
-              <div className="bg-black/20 rounded-2xl shadow-lg p-8 flex-1 min-w-[300px] max-w-2/3 text-left">
+              <div className="bg-gray-700/20 rounded-2xl shadow-lg p-8 flex-1 min-w-[300px] max-w-2/3 text-left">
                 <h3 className="text-4xl font-extrabold mb-3">Hi, I'm Jossaya</h3>
                 <p className="text-lg leading-relaxed mb-5">
-                  I'm a freshman at the University of Florida studying Computer Engineering with research interests in machine learning, computer vision, and robotics. I graduated from FAU High School in 2025, where I won a research grant for my foundational work to apply human pose estimation models to estimate gait metrics for early diagnosis of neurodegenerative diseases.
+                  I'm a sophomore at the University of Florida studying Computer Engineering with research interests in machine learning, computer vision, and robotics. I'm currently an undergradute researcher at the UF Warren B. Nelms Institute for the Connected World.
                 </p>
                 <span className="flex gap-4 mt-2">
                   {socialIcons.map(({ icon: Icon, name, link }) => (
@@ -157,7 +157,7 @@ export default function Home() {
                       rel="noopener noreferrer"
                       aria-label={name}
                     >
-                      <Icon className="inline-block text-2xl mx-2 transition-transform hover:scale-110" />
+                      <Icon className="inline-block text-2xl mx-2 transition-transform hover:scale-110 text-white" />
                     </a>
                   ))}
                 </span>

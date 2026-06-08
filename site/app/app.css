@@ -7,7 +7,7 @@
 
 html,
 body {
-  background: radial-gradient(circle at 10% 80%, #4a0292 0%, #000000 100%);
+  background: #1d032c;
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
