@@ -49,7 +49,7 @@ export default function Home() {
   const projects = [
     {
       name: "VaultTune",
-      background: "linear-gradient(135deg, rgba(54, 0, 248, 0.3), rgba(0, 255, 64, 0.3))",
+      background: "oklch(35.9% 0.144 278.697)",
       description: "VaultTune is your self-hosted music library, built with React, Electron, and Firebase. It allows you to listen to your music hosted on your computer anywhere, anytime, with a sleek interface and powerful features. ",
       images: [
         "/vaulttune/vaulttune-1.png",
