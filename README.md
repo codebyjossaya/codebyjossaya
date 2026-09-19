@@ -1,8 +1,8 @@
 # Jossaya Camille
 
-🎓 **Freshman @ University of Florida**  
+🎓 **Sophomore @ University of Florida**  
 💻 I build things like [VaultTune](https://github.com/codebyjossaya/vt_server) and my [personal website](https://jcamille.dev)  
-📚 Currently learning Rust<br />
+📚 Currently learning C++<br />
 🧠 Experienced with JavaScript/TypeScript, React, and Python  
 📬 Reach me at: [jossayacamille@gmail.com](mailto:jossayacamille@gmail.com)  
 
