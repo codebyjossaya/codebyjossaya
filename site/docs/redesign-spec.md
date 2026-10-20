@@ -3,7 +3,7 @@
 Status (2026-10-20): design approved in Figma, **nothing implemented yet**. Next step is building it and opening a PR (do not push to `main` directly).
 
 - Figma file: https://www.figma.com/design/fnMYLGNtbgFmtH8ocoA9uU (team plan `team::1690746272362403981`)
-  - Page **Site**: `Desktop — 1440` (2:2), `Mobile — 390` (3:2), `⌘K command palette` (3:217), `Right-click menu` (3:261), `404` (3:302), `Name typing` (5:92), `Scroll snap` diagram (44:36; regenerate from Desktop whenever sections change), `Nav crossfade` (44:2), `Spec` panel (22:4)
+  - Page **Site**: `Desktop — 1440` (2:2), `Mobile — 390` (3:2), `⌘K command palette` (3:217), `Right-click menu` (3:261), `404` (3:302), `Name typing` (5:92), `Scroll snap` diagram (47:25; regenerate from Desktop whenever sections change), `Nav crossfade` (44:2), `Spec` panel (22:4)
   - Page **Dashboard**: 14 screens, `Dashboard — <name>` (posts, post editor, profile, contact, experience, projects, friends, resume, sections & layout, appearance, commands & menus, seo & sharing, footer & 404, deploys)
 - Owner: Jossaya Camille (jossayacamille@gmail.com), 2nd-year Computer Engineering at UF.
 
@@ -42,7 +42,7 @@ Left (sticky):
 2. Name "Jossaya Camille" in Plex Mono Bold with a purple blinking block cursor. On load the name **types in** (~60ms/char), cursor keeps blinking.
 3. "Software Engineer Intern @ AD Vantage" (no dot/icon before it).
 4. No short bio line under the name (owner rejected it).
-5. Nav: `about`, `contact`, `experience`, `projects`, `other stuff`, `friends` (+ `writing` only when a post exists). **No section numbers anywhere** (owner: "we can count"). Active = brighter text. On section change the old label fades out while the new one fades in (250ms ease-out crossfade); jumps (e.g. about → friends) crossfade directly, labels in between never light up.
+5. Nav: `about`, `contact`, `experience`, `projects`, `other stuff`, `friends` (+ `writing` only when a post exists). **No section numbers anywhere** (owner: "we can count"). Active = brighter text plus a 1px, 40px line to its left (only the active item has a line). On section change the old label fades out and its line shrinks to 0 while the new label fades in and its line grows to 40px (250ms ease-out); jumps (e.g. about → friends) crossfade directly, labels in between never light up.
 6. (No screen counter.)
 7. Socials: github, linkedin, devpost, `resume.pdf ↓` (accent).
 8. Above the ⌘K hint (mobile: bottom of header): Psalm 150:6, **ESV**, full verse in muted italic Inter 13px — "Let everything that has breath praise the LORD! Praise the LORD!" — with `psalm 150:6` in dim Plex Mono 11px below. Editable in the dashboard profile screen.
@@ -102,7 +102,7 @@ Dashboard friends screen: "upload photos" button, thumbnail strip (drag to reord
 
 ## Interaction
 
-- **Scroll snap**: `scroll-snap-type: y proximity` on the right column; sections grouped into screens: (1) about + contact, (2) experience (taller than viewport — free scroll inside), (3) projects slideshow, (4) other stuff i'm up to, (5) friends + photo slideshow + footer (free scroll inside on laptops). Content fades up ~8px, staggered, once per screen. `j`/`k`, PgUp/PgDn, arrows jump screens. Off on mobile (fades kept).
+- **Scroll snap**: `scroll-snap-type: y proximity` on the right column; sections grouped into screens: (1) about + contact, (2) experience (taller than viewport — free scroll inside), (3) projects slideshow, (4) other stuff i'm up to, (5) friends + photo slideshow + footer (free scroll inside on laptops). Content fades up ~8px, staggered, once per screen. The active nav label + line crossfade to the screen in view. `j`/`k`, PgUp/PgDn, arrows jump screens. Off on mobile (fades kept).
 - **⌘K palette**: centered panel, `>` prompt, results with verb column (go to / open / copy / download / visit) and shortcut hints; includes "visit a random friend's site" and a hidden `sudo` easter egg ("nice try.").
 - **Right-click menu**: custom context menu (section names, copy email, view source, open ⌘K); active section highlighted. Shift+right-click opens the native menu. Long-press on mobile.
 - **404**: terminal style — `$ cd /this-page`, red `cd: no such file or directory`, big `404` with cursor block, "you wandered off. try ⌘K, or cd ~ to go home."
