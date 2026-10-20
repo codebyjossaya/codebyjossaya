@@ -83,7 +83,7 @@ Mobile: sticky top bar (`~/jossaya` + `menu ⌘` button), header (photo, name, c
 4. Oct 2026 — now · Stardust ↗ (https://github.com/jeebuscrossaint/stardust, live: stardust.jcamille.dev) — ML-accelerated asteroid precovery tool that refines asteroid orbits with past sightings and displays them in an asteroid tracker UI
 5. Oct 2026 — now · Reconix ↗ (https://makaip.com/reconix) — Human-in-the-loop AI-powered pen testing browser.
 
-**friends** — intro line "people i build with, learn from, and bother." Then one row per friend: name, one-liner (taken from the friend's own site), url ↗. Order doesn't matter (shuffle allowed). Thandi was intentionally removed.
+**friends** — intro line "people i build with, learn from, and bother." Then one row per friend: name, one-liner (taken from the friend's own site), url ↗. Fixed order: Zachary Lopez, Makai Pindell, Amarnath Patel, Eoghan McIvor, Alex Castronovo. Thandi was intentionally removed.
 | name | url | one-liner |
 |---|---|---|
 | Amarnath Patel | https://apatel.co | physics (optics & lasers) and math at UCF |
