@@ -3,7 +3,7 @@
 Status (2026-10-20): design approved in Figma, **nothing implemented yet**. Next step is building it and opening a PR (do not push to `main` directly).
 
 - Figma file: https://www.figma.com/design/fnMYLGNtbgFmtH8ocoA9uU (team plan `team::1690746272362403981`)
-  - Page **Site**: `Desktop — 1440` (2:2), `Mobile — 390` (3:2), `⌘K command palette` (3:217), `Right-click menu` (3:261), `404` (3:302), `Name typing` (5:92), `Scroll snap` diagram (21:10), `Spec` panel (22:4)
+  - Page **Site**: `Desktop — 1440` (2:2), `Mobile — 390` (3:2), `⌘K command palette` (3:217), `Right-click menu` (3:261), `404` (3:302), `Name typing` (5:92), `Scroll snap` diagram (41:2), `Spec` panel (22:4)
   - Page **Dashboard**: 14 screens, `Dashboard — <name>` (posts, post editor, profile, contact, experience, projects, friends, resume, sections & layout, appearance, commands & menus, seo & sharing, footer & 404, deploys)
 - Owner: Jossaya Camille (jossayacamille@gmail.com), 2nd-year Computer Engineering at UF.
 
@@ -42,12 +42,13 @@ Left (sticky):
 2. Name "Jossaya Camille" in Plex Mono Bold with a purple blinking block cursor. On load the name **types in** (~60ms/char), cursor keeps blinking.
 3. "Software Engineer Intern @ AD Vantage" (no dot/icon before it).
 4. No short bio line under the name (owner rejected it).
-5. Nav: `01 about`, `02 contact`, `03 experience`, `04 projects`, `05 friends` (+ `06 writing` only when a post exists). Number + label only, active = brighter text.
-6. Screen counter `01 / 04` under nav (scroll-snap position).
+5. Nav: `01 about`, `02 contact`, `03 experience`, `04 projects`, `05 other stuff`, `06 friends` (+ `07 writing` only when a post exists). Number + label only, active = brighter text.
+6. Screen counter `01 / 05` under nav (scroll-snap position).
 7. Socials: github, linkedin, devpost, `resume.pdf ↓` (accent).
-8. Hint chip: `⌘K  jump anywhere, right-click for more`.
+8. Above the ⌘K hint (mobile: bottom of header): Psalm 150:6, **ESV**, full verse in muted italic Inter 13px — "Let everything that has breath praise the LORD! Praise the LORD!" — with `psalm 150:6` in dim Plex Mono 11px below. Editable in the dashboard profile screen.
+9. Hint chip: `⌘K  jump anywhere, right-click for more`.
 
-Right (sections, in this order): about, contact, experience, projects, friends, (writing — hidden until first post), footer.
+Right (sections, in this order): about, contact, experience, projects, other stuff i'm up to, friends, (writing — hidden until first post), footer.
 
 Mobile: sticky top bar (`~/jossaya` + `menu ⌘` button), header (photo, name, currently, socials), then sections stacked. Experience rows stack date above content.
 
@@ -75,6 +76,13 @@ Mobile: sticky top bar (`~/jossaya` + `menu ⌘` button), header (photo, name, c
 - More (placeholders, confirm with owner): VaultTune, Marston. Owner has more projects "in the works".
 - Lazy-load non-current slide images; AVIF/WebP.
 
+**other stuff i'm up to** (section label `05 / other stuff i'm up to`) — same row layout as experience but lighter: no dividers, no tags, no ↗, role in softer text (`#c9c9cf`), org muted, one short line. Placed directly below projects. One-liners confirmed by owner. Rows ordered oldest start date first.
+1. Aug 2025 — now · Tech Coordinator @ DSI — Run the tech behind DSI's data science and ML workshops.
+2. Aug 2026 — now · Student Leader @ The Salt Company — Help lead a weekly college ministry community in Gainesville.
+3. Sep 2026 — now · Firmware Team @ Florida Rocket Lab — Write firmware for the lab's rocket avionics.
+4. Oct 2026 — now · Stardust ↗ (https://github.com/jeebuscrossaint/stardust, live: stardust.jcamille.dev) — Near-Earth asteroid tracker that refines orbits with sightings from archival sky surveys.
+5. Oct 2026 — now · Reconix ↗ (https://makaip.com/reconix) — Pentesting browser with an AI copilot; anything that changes state waits for your approval.
+
 **friends** — intro line "people i build with, learn from, and bother." Then one row per friend: name, one-liner (taken from the friend's own site), url ↗. Order doesn't matter (shuffle allowed). Thandi was intentionally removed.
 | name | url | one-liner |
 |---|---|---|
@@ -93,7 +101,7 @@ Dashboard friends screen: "upload photos" button, thumbnail strip (drag to reord
 
 ## Interaction
 
-- **Scroll snap**: `scroll-snap-type: y proximity` on the right column; sections grouped into screens: (1) about + contact, (2) experience (taller than viewport — free scroll inside), (3) projects, (4) friends + footer. Content fades up ~8px, staggered, once per screen. `j`/`k`, PgUp/PgDn, arrows jump screens. Off on mobile (fades kept).
+- **Scroll snap**: `scroll-snap-type: y proximity` on the right column; sections grouped into screens: (1) about + contact, (2) experience (taller than viewport — free scroll inside), (3) projects slideshow, (4) other stuff i'm up to, (5) friends + photo slideshow + footer (free scroll inside on laptops). Content fades up ~8px, staggered, once per screen. `j`/`k`, PgUp/PgDn, arrows jump screens. Off on mobile (fades kept).
 - **⌘K palette**: centered panel, `>` prompt, results with verb column (go to / open / copy / download / visit) and shortcut hints; includes "visit a random friend's site" and a hidden `sudo` easter egg ("nice try.").
 - **Right-click menu**: custom context menu (sections 01–06, copy email, view source, open ⌘K); active section highlighted. Shift+right-click opens the native menu. Long-press on mobile.
 - **404**: terminal style — `$ cd /this-page`, red `cd: no such file or directory`, big `404` with cursor block, "you wandered off. try ⌘K, or cd ~ to go home."
