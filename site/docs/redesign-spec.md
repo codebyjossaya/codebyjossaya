@@ -59,7 +59,7 @@ Mobile: sticky top bar (`~/jossaya` + `menu ⌘` button), header (photo, name, c
 >
 > I'm also drawn to software engineering, full-stack web development, and embedded systems.
 
-(The LinkedIn "always down to connect…" line was intentionally dropped.) Stack tags as plain mono text, no pills: python, pytorch, opencv, typescript, react, postgres, c/c++, vhdl.
+(The LinkedIn "always down to connect…" line was intentionally dropped.) Skills: a grid of monochrome brand icons (simple-icons, rendered at build time, no runtime JS) with the name in small mono underneath, like the old site's skills grid; grey, brightening on hover. List: Python, TypeScript, JavaScript, React, Node.js, Electron, C, C++, PyTorch, OpenCV, Postgres, Firebase, Docker, Cloudflare, Git, GitHub, Linux, EndeavourOS, Neovim (VS Code dropped: no icon in simple-icons).
 
 **contact** — rows with hairline dividers, label column + value: email `jossayacamille@gmail.com` (plain text, with copy button), github.com/codebyjossaya, linkedin.com/in/jossayacamille, devpost (https://devpost.com/jossaya), resume.pdf (download). `jcamille.dev/resume` redirects (302, via `public/_redirects`) to the PDF so it opens in the browser.
 

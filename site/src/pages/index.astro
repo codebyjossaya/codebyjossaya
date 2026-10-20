@@ -7,6 +7,9 @@ import experience from "../content/experience.json";
 import projects from "../content/projects.json";
 import other from "../content/other.json";
 import friends from "../content/friends.json";
+import * as simpleIcons from "simple-icons";
+
+const skills = profile.skills.map((s) => ({ ...s, path: (simpleIcons as any)[s.icon]?.path as string | undefined }));
 
 const posts = Object.values(import.meta.glob("../content/posts/*.md", { eager: true })) as any[];
 const published = posts.filter((p) => p.frontmatter?.published !== false);
@@ -67,7 +70,14 @@ const social = [...profile.links];
         <section id="about" data-section>
           <h2 class="label mono fade">about</h2>
           {profile.about.map((p, i) => <p class="fade" style={`--i:${i + 1}`}>{p}</p>)}
-          <p class="stack mono fade" style="--i:3">{profile.stack.join("  ")}</p>
+          <ul class="skills fade" style="--i:3" aria-label="skills">
+            {skills.map((k) => (
+              <li>
+                {k.path && <svg viewBox="0 0 24 24" aria-hidden="true"><path d={k.path} /></svg>}
+                <span class="mono">{k.name}</span>
+              </li>
+            ))}
+          </ul>
         </section>
 
         <section id="contact" data-section>
@@ -225,7 +235,12 @@ const social = [...profile.links];
   section + section { margin-top: 64px; }
   .label { margin: 0 0 20px; font-size: 13px; font-weight: 400; color: var(--accent); }
   section p { margin: 0 0 16px; color: #bdbdc5; }
-  .stack { font-size: 13px; color: var(--muted) !important; word-spacing: .4em; margin-top: 24px !important; }
+  .skills { list-style: none; margin: 28px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 18px 8px; }
+  .skills li { display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--muted); transition: color .2s; }
+  .skills li:hover { color: var(--text); }
+  .skills svg { width: 22px; height: 22px; fill: currentColor; }
+  .skills span { font-size: 11px; color: var(--dim); white-space: nowrap; }
+  .skills li:hover span { color: var(--muted); }
   .link { color: var(--text); transition: color .2s; }
   .link:hover { color: var(--accent); }
 
