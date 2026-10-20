@@ -325,5 +325,7 @@ const social = [...profile.links];
     .side-foot { display: flex; flex-direction: column; align-items: center; }
     .socials { justify-content: center; }
     .verse { margin-left: auto; margin-right: auto; }
+    /* keep sections to a readable column instead of stretching edge to edge */
+    .screen > :global(*) { max-width: 640px; margin-left: auto; margin-right: auto; }
   }
 </style>
