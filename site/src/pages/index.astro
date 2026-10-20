@@ -284,14 +284,14 @@ const social = [...profile.links];
   :global(html.wheel) .main { position: relative; height: 100vh; padding: 0; }
   :global(html.wheel) .screen {
     position: absolute; inset: 0; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none;
-    transition: transform .5s cubic-bezier(.22,.8,.24,1), opacity .5s ease;
+    transition: transform .62s cubic-bezier(.22,.8,.24,1), opacity .5s ease;
     opacity: 0; visibility: hidden;
   }
   :global(html.wheel) .screen::-webkit-scrollbar { display: none; }
   :global(html.wheel) .screen.above { transform: translateY(-55vh); }
   :global(html.wheel) .screen.below { transform: translateY(55vh); }
-  :global(html.wheel) .screen.cur { transform: none; opacity: 1; visibility: visible; transition: transform .5s cubic-bezier(.22,.8,.24,1), opacity .4s ease .04s; }
-  :global(html.wheel) .screen:not(.cur) { transition: transform .5s cubic-bezier(.22,.8,.24,1), opacity .3s ease, visibility 0s linear .5s; }
+  :global(html.wheel) .screen.cur { transform: none; opacity: 1; visibility: visible; transition: transform .62s cubic-bezier(.22,.8,.24,1), opacity .4s ease .04s; }
+  :global(html.wheel) .screen:not(.cur) { transition: transform .62s cubic-bezier(.22,.8,.24,1), opacity .3s ease, visibility 0s linear .62s; }
 
   @media (max-width: 1023px) {
     .topbar { display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; height: 52px; padding: 0 20px; background: rgb(11 11 13 / .92); border-bottom: 1px solid var(--line); font-size: 13px; color: var(--muted); }

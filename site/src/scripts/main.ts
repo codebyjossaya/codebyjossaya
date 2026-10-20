@@ -73,7 +73,7 @@ const place = (n: number, dir: 1 | -1 | 0) => {
 // a short lock so one notch can't skip two screens; trackpad momentum from the
 // same swipe is ignored, but a new swipe can turn again right away
 let lockUntil = 0, lastWheel = 0, acc = 0, lastDy = 0, coasting = false;
-const TURN_MS = 220;
+const TURN_MS = 450;
 const turn = (n: number) => {
   n = Math.max(0, Math.min(screens.length - 1, n));
   if (n === cur) return false;
@@ -99,16 +99,16 @@ const onWheel = (e: WheelEvent) => {
   const gap = now - lastWheel;
   lastWheel = now;
   const raw = Math.abs(e.deltaY);
-  // momentum decays; a fresh swipe (pause, or a sudden bigger delta) ends coasting
+  // a new gesture only counts after a real pause; momentum events arrive ~16ms apart
   // (mouse-wheel notches repeat the same large delta, so they never coast)
-  if (coasting && (gap > 90 || raw > lastDy * 1.4 + 4 || (raw >= 50 && Math.abs(raw - lastDy) < 1))) coasting = false;
+  if (coasting && (gap > 140 || (raw >= 50 && Math.abs(raw - lastDy) < 1 && gap > 120))) coasting = false;
   lastDy = raw;
   if (now < lockUntil || coasting) return;
   const sc = screens[cur];
   const dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
   if (canScroll(sc, dy)) { sc.scrollTop += dy; acc = 0; return; }
   acc += dy;
-  if (Math.abs(acc) > 40) turn(cur + Math.sign(acc));
+  if (Math.abs(acc) > 70) turn(cur + Math.sign(acc));
 };
 
 const enableWheel = () => {
