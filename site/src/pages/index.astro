@@ -79,10 +79,12 @@ const social = [...profile.links];
             ))}
           </ul>
         </section>
+      </div>
 
+      <div class="screen" data-screen>
         <section id="contact" data-section>
-          <h2 class="label mono fade" style="--i:4">contact</h2>
-          <dl class="rows fade" style="--i:5">
+          <h2 class="label mono fade">contact</h2>
+          <dl class="rows fade" style="--i:1">
             <div>
               <dt class="mono">email</dt>
               <dd><span>{profile.email}</span> <button class="copy mono" data-copy={profile.email}>copy</button></dd>
