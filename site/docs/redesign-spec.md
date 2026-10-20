@@ -77,11 +77,11 @@ Mobile: sticky top bar (`~/jossaya` + `menu ⌘` button), header (photo, name, c
 - Lazy-load non-current slide images; AVIF/WebP.
 
 **other stuff i'm up to** (section label `other stuff i'm up to`) — same row layout as experience but lighter: no dividers, no tags, no ↗, role in softer text (`#c9c9cf`), org muted, one short line. Placed directly below projects. One-liners confirmed by owner. Rows ordered oldest start date first.
-1. Aug 2025 — now · Tech Coordinator @ DSI — Run the tech behind DSI's data science and ML workshops.
-2. Aug 2026 — now · Student Leader @ The Salt Company — Help lead a weekly college ministry community in Gainesville.
+1. Aug 2025 — now · Tech Coordinator @ DSI — Work with the eboard and other coordinators to maintain DSI's online presence.
+2. Aug 2026 — now · Student Leader @ The Salt Company — Co-lead a weekly connection group as part of our weekly ministry.
 3. Sep 2026 — now · Firmware Team @ Florida Rocket Lab — Write firmware for the lab's rocket avionics.
-4. Oct 2026 — now · Stardust ↗ (https://github.com/jeebuscrossaint/stardust, live: stardust.jcamille.dev) — Near-Earth asteroid tracker that refines orbits with sightings from archival sky surveys.
-5. Oct 2026 — now · Reconix ↗ (https://makaip.com/reconix) — Pentesting browser with an AI copilot; anything that changes state waits for your approval.
+4. Oct 2026 — now · Stardust ↗ (https://github.com/jeebuscrossaint/stardust, live: stardust.jcamille.dev) — ML-accelerated asteroid precovery tool that refines asteroid orbits with past sightings and displays them in an asteroid tracker UI
+5. Oct 2026 — now · Reconix ↗ (https://makaip.com/reconix) — Human-in-the-loop AI-powered pen testing browser.
 
 **friends** — intro line "people i build with, learn from, and bother." Then one row per friend: name, one-liner (taken from the friend's own site), url ↗. Order doesn't matter (shuffle allowed). Thandi was intentionally removed.
 | name | url | one-liner |

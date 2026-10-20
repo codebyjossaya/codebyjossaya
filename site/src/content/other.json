@@ -1,7 +1,43 @@
 [
-  { "start": "2025-08", "dates": "Aug 2025 — now", "role": "Tech Coordinator", "org": "DSI", "url": "", "line": "Run the tech behind DSI's data science and ML workshops." },
-  { "start": "2026-08", "dates": "Aug 2026 — now", "role": "Student Leader", "org": "The Salt Company", "url": "", "line": "Help lead a weekly college ministry community in Gainesville." },
-  { "start": "2026-09", "dates": "Sep 2026 — now", "role": "Firmware Team", "org": "Florida Rocket Lab", "url": "", "line": "Write firmware for the lab's rocket avionics." },
-  { "start": "2026-10", "dates": "Oct 2026 — now", "role": "Stardust", "org": "", "url": "https://github.com/jeebuscrossaint/stardust", "live": "https://stardust.jcamille.dev", "line": "Near-Earth asteroid tracker that refines orbits with sightings from archival sky surveys." },
-  { "start": "2026-10", "dates": "Oct 2026 — now", "role": "Reconix", "org": "", "url": "https://makaip.com/reconix", "line": "Pentesting browser with an AI copilot; anything that changes state waits for your approval." }
+  {
+    "start": "2025-08",
+    "dates": "Aug 2025 — now",
+    "role": "Tech Coordinator",
+    "org": "DSI",
+    "url": "",
+    "line": "Work with the eboard and other coordinators to maintain DSI's online presence."
+  },
+  {
+    "start": "2026-08",
+    "dates": "Aug 2026 — now",
+    "role": "Student Leader",
+    "org": "The Salt Company",
+    "url": "",
+    "line": "Co-lead a weekly connection group as part of our weekly ministry."
+  },
+  {
+    "start": "2026-09",
+    "dates": "Sep 2026 — now",
+    "role": "Firmware Team",
+    "org": "Florida Rocket Lab",
+    "url": "",
+    "line": "Write firmware for the lab's rocket avionics."
+  },
+  {
+    "start": "2026-10",
+    "dates": "Oct 2026 — now",
+    "role": "Stardust",
+    "org": "",
+    "url": "https://github.com/jeebuscrossaint/stardust",
+    "live": "https://stardust.jcamille.dev",
+    "line": "ML-accelerated asteroid precovery tool that refines asteroid orbits with past sightings and displays them in an asteroid tracker UI"
+  },
+  {
+    "start": "2026-10",
+    "dates": "Oct 2026 — now",
+    "role": "Reconix",
+    "org": "",
+    "url": "https://makaip.com/reconix",
+    "line": "Human-in-the-loop AI-powered pen testing browser."
+  }
 ]
