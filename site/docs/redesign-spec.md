@@ -83,7 +83,9 @@ Mobile: sticky top bar (`~/jossaya` + `menu ⌘` button), header (photo, name, c
 | Makai Pindell | https://makaip.com | ML enthusiast and software developer |
 | Alex Castronovo | https://alexcastronovo.com | programmer, neuroscience researcher, satellite subsystem lead |
 
-Below the friends list: a group photo (rounded 6px, full column width, 4:3) with a dim mono caption: "April 2025 - Research presentation at FAU Wilkes Honors College Symposium". Photo was shared in chat by the owner (not yet in the repo; ask for the file). Editable in the dashboard friends screen.
+Below the friends list: a **photo slideshow** of 8 group photos (rounded 6px, full column width, `1 / 8` counter badge, dim mono caption under the image, same ← dots → nav and 6s auto-advance as the projects slideshow). Order: FIU arch sculpture at night; prom selfie; research symposium; FAU graduation; restaurant selfie; HiPerGator server room; marsh boardwalk; Salt Company Gainesville wall. Only the symposium photo has a caption so far: "April 2025 - Research presentation at FAU Wilkes Honors College Symposium" — owner will write the rest (do not invent captions). Photos were shared in chat, not yet in the repo; ask the owner for the files.
+
+Dashboard friends screen: "upload photos" button, thumbnail strip (drag to reorder, + add), and a selected-photo editor with caption, alt text, replace, adjust crop, remove. Project slides also get an optional caption + alt text field. Everything with an image must be captionable and replaceable by the owner.
 
 **writing** — hidden (section, nav, menus) until at least one post is published.
 
