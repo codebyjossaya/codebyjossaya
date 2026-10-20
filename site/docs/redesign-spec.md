@@ -31,7 +31,7 @@ Status (2026-10-20): design approved in Figma, **nothing implemented yet**. Next
 
 - Fonts (final): **IBM Plex Mono** for name, nav, labels, meta, tags; **Inter** for body. Self-host, subset, `font-display: swap`.
 - Accent use is sparing: links, section labels (`about`), active states, cursor block.
-- Background: full-viewport grid, 48px cells, white lines ~4.5% opacity, `position: fixed` (does not scroll, always fills the screen). Lines within ~150px of the cursor brighten to **tinted white `#f3eaff`** (~24% opacity), radial falloff. Desktop/pointer only; fades out when cursor leaves.
+- Background: full-viewport grid, 48px cells, white lines ~4.5% opacity, `position: fixed` (does not scroll, always fills the screen). Near the cursor (radius ~150px) the grid acts like a **lens**: lines bow outward up to **6px** at the center (falloff `(1-(r/R)^2)^2`) and brighten to **tinted white `#f3eaff`** (~24% opacity). The warp follows the cursor with a slight spring lag and eases back flat when the cursor stops (glow stays). Render on a `<canvas>` redrawn only while the pointer moves. Desktop/pointer only; fades out when cursor leaves. Reduced motion: no warp, glow kept. Dashboard appearance: "glow + warp near cursor" switch + warp strength slider. Figma: `Grid warp + glow` frame (48:2).
 
 ## Layout (single page)
 
