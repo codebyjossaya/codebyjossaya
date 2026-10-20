@@ -3,7 +3,7 @@
 Status (2026-10-20): design approved in Figma, **nothing implemented yet**. Next step is building it and opening a PR (do not push to `main` directly).
 
 - Figma file: https://www.figma.com/design/fnMYLGNtbgFmtH8ocoA9uU (team plan `team::1690746272362403981`)
-  - Page **Site**: `Desktop — 1440` (2:2), `Mobile — 390` (3:2), `⌘K command palette` (3:217), `Right-click menu` (3:261), `404` (3:302), `Name typing` (5:92), `Scroll snap` diagram (41:2), `Spec` panel (22:4)
+  - Page **Site**: `Desktop — 1440` (2:2), `Mobile — 390` (3:2), `⌘K command palette` (3:217), `Right-click menu` (3:261), `404` (3:302), `Name typing` (5:92), `Scroll snap` diagram (43:2; regenerate from Desktop whenever sections change), `Spec` panel (22:4)
   - Page **Dashboard**: 14 screens, `Dashboard — <name>` (posts, post editor, profile, contact, experience, projects, friends, resume, sections & layout, appearance, commands & menus, seo & sharing, footer & 404, deploys)
 - Owner: Jossaya Camille (jossayacamille@gmail.com), 2nd-year Computer Engineering at UF.
 
@@ -90,6 +90,7 @@ Mobile: sticky top bar (`~/jossaya` + `menu ⌘` button), header (photo, name, c
 | Zachary Lopez | https://zachl.tech | computer engineer & software developer |
 | Makai Pindell | https://makaip.com | ML enthusiast and software developer |
 | Alex Castronovo | https://alexcastronovo.com | programmer, neuroscience researcher, satellite subsystem lead |
+| Eoghan McIvor | https://eoghan.codes | full stack engineer into robotics and embedded systems software |
 
 Below the friends list: a **photo slideshow** of 8 group photos (rounded 6px, full column width, `1 / 8` counter badge, dim mono caption under the image, same ← dots → nav and 6s auto-advance as the projects slideshow). Order: FIU arch sculpture at night; prom selfie; research symposium; FAU graduation; restaurant selfie; HiPerGator server room; marsh boardwalk; Salt Company Gainesville wall. Only the symposium photo has a caption so far: "April 2025 - Research presentation at FAU Wilkes Honors College Symposium" — owner will write the rest (do not invent captions). Photos were shared in chat, not yet in the repo; ask the owner for the files.
 
