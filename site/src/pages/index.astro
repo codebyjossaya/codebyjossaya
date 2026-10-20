@@ -318,4 +318,12 @@ const social = [...profile.links];
     :global(html.wheel) .screen { padding: 36px 20px 48px; }
     :global(html.wheel) .side.screen { display: flex; flex-direction: column; justify-content: center; }
   }
+
+  /* tablets / wide windows on the stacked layout: center the header screen */
+  @media (min-width: 600px) and (max-width: 1023px) {
+    .side { align-items: center; text-align: center; }
+    .side-foot { display: flex; flex-direction: column; align-items: center; }
+    .socials { justify-content: center; }
+    .verse { margin-left: auto; margin-right: auto; }
+  }
 </style>
