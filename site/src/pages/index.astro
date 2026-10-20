@@ -311,5 +311,11 @@ const social = [...profile.links];
     .rows div { grid-template-columns: 84px 1fr; }
     .rows dd { flex-wrap: wrap; min-width: 0; overflow-wrap: anywhere; }
     .footer { margin: 72px 0 24px; }
+
+    /* screen mode on phones: the header and each screen fill the space under the top bar */
+    :global(html.wheel) .wrap { position: relative; height: calc(100dvh - 52px); padding: 0; }
+    :global(html.wheel) .main { position: static; height: auto; }
+    :global(html.wheel) .screen { padding: 36px 20px 48px; }
+    :global(html.wheel) .side.screen { display: flex; flex-direction: column; justify-content: center; }
   }
 </style>

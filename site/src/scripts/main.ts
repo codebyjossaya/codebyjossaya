@@ -16,14 +16,17 @@ if (typed) {
 }
 
 /* ---------- screens ----------
-   Desktop (wide + mouse/trackpad): the page doesn't scroll. Screens sit on an
-   arc like the rim of a wheel; the wheel turns one screen at a time and the
-   new screen's content animates in. Tall screens scroll inside first.
-   Phones/tablets: normal scrolling, content fades in as it arrives. */
-const screens = $$("[data-screen]");
+   The page itself doesn't scroll. Screens are stacked vertically; a wheel
+   notch, trackpad swipe, key or touch swipe slides the current one up and out
+   while the next rises in, and its content animates in. Tall screens scroll
+   inside first. On phones the header is the first screen. */
+const baseScreens = $$("[data-screen]");
+const side = $(".side")!;
+// on phones the header (photo, name, links) is the first screen
+const mobile = matchMedia("(max-width: 1023px)");
+let screens = baseScreens;
 const sections = $$("[data-section]");
 const navLinks = new Map($$<HTMLAnchorElement>("[data-nav]").map((a) => [a.dataset.nav!, a]));
-const wheelMode = matchMedia("(min-width: 1024px) and (hover: hover)");
 const root = document.documentElement;
 let active = "";
 let cur = 0;
@@ -37,7 +40,8 @@ const setActive = (id: string) => {
 
 // which section is "current": the last one whose top has passed 35% of the view
 const activeIn = (list: HTMLElement[], top: number, atEnd: boolean) => {
-  let id = list[0]?.id ?? "";
+  if (!list.length) return "";
+  let id = list[0].id;
   for (const s of list) if (s.getBoundingClientRect().top <= top) id = s.id;
   return atEnd ? list.at(-1)!.id : id;
 };
@@ -52,7 +56,6 @@ const syncActive = () => {
 };
 
 const reveal = (sc: Element) => sc.classList.add("shown");
-let fadeObs: IntersectionObserver | undefined;
 
 const place = (n: number, dir: 1 | -1 | 0) => {
   screens.forEach((sc, k) => {
@@ -73,6 +76,7 @@ const place = (n: number, dir: 1 | -1 | 0) => {
 // a short lock so one notch can't skip two screens; trackpad momentum from the
 // same swipe is ignored, but a new swipe can turn again right away
 let lockUntil = 0, lastWheel = 0, acc = 0, lastDy = 0, coasting = false, minDy = Infinity, maxDy = 0;
+let hist: number[] = [];
 const TURN_MS = 450;
 const turn = (n: number) => {
   n = Math.max(0, Math.min(screens.length - 1, n));
@@ -85,6 +89,7 @@ const turn = (n: number) => {
   coasting = true;
   minDy = Infinity;
   maxDy = 0;
+  hist = [];
   closeMenu();
   syncActive();
   return true;
@@ -106,9 +111,14 @@ const onWheel = (e: WheelEvent) => {
   if (coasting) {
     maxDy = Math.max(maxDy, raw);
     minDy = Math.min(minDy, raw);
-    // only call it a new swipe once the old one has visibly died down
-    const decayed = minDy < maxDy * 0.35;
-    const freshSwipe = gap > 140 || (decayed && raw >= 8 && raw > minDy * 2 + 6);
+    hist.push(raw);
+    if (hist.length > 6) hist.shift();
+    const avg = (a: number[]) => a.reduce((x, y) => x + y, 0) / (a.length || 1);
+    // only call it a new swipe once the old one has clearly died down AND the
+    // recent deltas are clearly climbing (averaged, so jitter doesn't count)
+    const decayed = minDy < maxDy * 0.3;
+    const climbing = hist.length === 6 && avg(hist.slice(3)) > avg(hist.slice(0, 3)) * 1.8 + 4 && raw >= 12;
+    const freshSwipe = gap > 200 || (decayed && climbing);
     const notch = raw >= 50 && Math.abs(raw - lastDy) < 1 && gap > 120;
     if (freshSwipe || notch) coasting = false;
   }
@@ -123,24 +133,34 @@ const onWheel = (e: WheelEvent) => {
 
 const enableWheel = () => {
   root.classList.add("wheel");
-  fadeObs?.disconnect();
+  [side, ...baseScreens].forEach((sc) => { sc.classList.remove("cur", "above", "below", "shown"); sc.removeAttribute("inert"); });
+  side.classList.toggle("screen", mobile.matches);
+  screens = mobile.matches ? [side, ...baseScreens] : baseScreens;
   const fromHash = location.hash && document.getElementById(location.hash.slice(1));
   cur = fromHash ? Math.max(0, screens.findIndex((s) => s.contains(fromHash))) : 0;
   place(cur, 0);
   syncActive();
 };
-const disableWheel = () => {
-  root.classList.remove("wheel");
-  screens.forEach((sc) => { sc.classList.remove("cur", "above", "below"); sc.removeAttribute("inert"); });
-  fadeObs = new IntersectionObserver((entries) => {
-    for (const e of entries) if (e.isIntersecting) { reveal(e.target); fadeObs!.unobserve(e.target); }
-  }, { threshold: 0.12 });
-  screens.forEach((s) => fadeObs!.observe(s));
-  syncActive();
-};
+
+// touch: swipe up/down past the edge of the current screen turns it
+let ty0 = 0, tx0 = 0, edgeDown = false, edgeUp = false;
+addEventListener("touchstart", (e) => {
+  if (e.touches.length !== 1 || (e.target as Element).closest?.("dialog, [data-ctx]")) return;
+  const sc = screens[cur];
+  ty0 = e.touches[0].clientY; tx0 = e.touches[0].clientX;
+  edgeDown = !canScroll(sc, 1); edgeUp = !canScroll(sc, -1);
+}, { passive: true });
+addEventListener("touchend", (e) => {
+  const t = e.changedTouches[0];
+  const dy = ty0 - t.clientY, dx = tx0 - t.clientX;
+  if (Math.abs(dy) < 50 || Math.abs(dx) > Math.abs(dy)) return;
+  const sc = screens[cur];
+  if (dy > 0 && edgeDown && !canScroll(sc, 1)) turn(cur + 1);
+  else if (dy < 0 && edgeUp && !canScroll(sc, -1)) turn(cur - 1);
+}, { passive: true });
 
 addEventListener("wheel", onWheel, { passive: false });
-screens.forEach((sc) => sc.addEventListener("scroll", () => { if (sc === screens[cur]) { syncActive(); closeMenu(); } }, { passive: true }));
+[side, ...baseScreens].forEach((sc) => sc.addEventListener("scroll", () => { if (sc === screens[cur]) { syncActive(); closeMenu(); } }, { passive: true }));
 let ticking = false;
 addEventListener("scroll", () => {
   if (ticking) return;
@@ -177,8 +197,8 @@ const jump = (dir: 1 | -1) => {
   else turn(cur + dir);
 };
 
-const applyMode = () => (wheelMode.matches ? enableWheel() : disableWheel());
-wheelMode.addEventListener("change", applyMode);
+const applyMode = () => enableWheel();
+mobile.addEventListener("change", applyMode);
 
 /* ---------- toast + actions ---------- */
 const toast = $("[data-toast]")!;
