@@ -61,7 +61,7 @@ Mobile: sticky top bar (`~/jossaya` + `menu ⌘` button), header (photo, name, c
 
 (The LinkedIn "always down to connect…" line was intentionally dropped.) Stack tags as plain mono text, no pills: python, pytorch, opencv, typescript, react, postgres, c/c++, vhdl.
 
-**contact** — rows with hairline dividers, label column + value: email `jossayacamille@gmail.com` (plain text, with copy button), github.com/codebyjossaya, linkedin.com/in/jossayacamille, devpost (URL to confirm with owner), resume.pdf (download).
+**contact** — rows with hairline dividers, label column + value: email `jossayacamille@gmail.com` (plain text, with copy button), github.com/codebyjossaya, linkedin.com/in/jossayacamille, devpost (https://devpost.com/jossaya), resume.pdf (download).
 
 **experience** — no cards; rows with bottom divider, date column left (mono), role `@ org` (org accent + ↗ on hover), one short summary, `#tags`. From resume (`~/Downloads/main.tex`):
 1. Sep 2026 — now · Software Engineer Intern @ AD Vantage — coach search: UI, Postgres, REST.
@@ -73,7 +73,8 @@ Mobile: sticky top bar (`~/jossaya` + `menu ⌘` button), header (photo, name, c
 - Nav below slide: `←` button, dots, `→` button. **No project titles in the nav.** Dots: featured group, small gap, "more" group. Active dot is a wider pill that fills with purple as a timer.
 - Auto-advance every 6s, pause on hover, loop. Click dot/arrow jumps and resets timer. Crossfade transition. Reduced motion: crossfade stays, auto-advance paused. Mobile: swipe.
 - Featured (order): SignSpeak (Hacklytics 2026; PyTorch CNN on HiPerGator, TF.js, Nuxt, Gemini — **needs screenshot**), Monocular gait analysis (FAU BSIA, `3DHPE_GaitAnalysis` repo; image maybe `public/hpe/`), Solar Cybersedan (FAU AEV club; tags **#javascript** — NOT C++; image `public/alset/alset-1.jpg`; links: FAU article + `YamanDevelopment/AEV-Software`).
-- More (placeholders, confirm with owner): VaultTune, Marston. Owner has more projects "in the works".
+- Images: SignSpeak shows a "work in progress" placeholder (no screenshot yet). Gait analysis uses `public/hpe/` (confirmed). "More" projects use images from the current site where they exist (e.g. VaultTune → `public/vaulttune/`); projects with no image get a text-only slide.
+- More: VaultTune, Marston.
 - Lazy-load non-current slide images; AVIF/WebP.
 
 **other stuff i'm up to** (section label `other stuff i'm up to`) — same row layout as experience but lighter: no dividers, no tags, no ↗, role in softer text (`#c9c9cf`), org muted, one short line. Placed directly below projects. One-liners confirmed by owner. Rows ordered oldest start date first.
@@ -92,9 +93,9 @@ Mobile: sticky top bar (`~/jossaya` + `menu ⌘` button), header (photo, name, c
 | Alex Castronovo | https://alexcastronovo.com | programmer, neuroscience researcher, satellite subsystem lead |
 | Eoghan McIvor | https://eoghan.codes | full stack engineer into robotics and embedded systems software |
 
-Below the friends list: a **photo slideshow** of 8 group photos (rounded 6px, full column width, `1 / 8` counter badge, dim mono caption under the image, same ← dots → nav and 6s auto-advance as the projects slideshow). Order: FIU arch sculpture at night; prom selfie; research symposium; FAU graduation; restaurant selfie; HiPerGator server room; marsh boardwalk; Salt Company Gainesville wall. Only the symposium photo has a caption so far: "April 2025 - Research presentation at FAU Wilkes Honors College Symposium" — owner will write the rest (do not invent captions). Photos were shared in chat, not yet in the repo; ask the owner for the files.
+Below the friends list: **one** group photo — the April 2025 research symposium photo (owner has permission from everyone in it). **No caption.** Rounded 6px, full column width. No slideshow (owner decided against putting more photos of friends online). Strip EXIF/GPS and resize on upload/build for every image on the site.
 
-Dashboard friends screen: "upload photos" button, thumbnail strip (drag to reorder, + add), and a selected-photo editor with caption, alt text, replace, adjust crop, remove. Project slides also get an optional caption + alt text field. Everything with an image must be captionable and replaceable by the owner.
+Dashboard friends screen: a single "group photo" field (replace, adjust crop, alt text). No captions on any photos.
 
 **writing** — hidden (section, nav, menus) until at least one post is published.
 
@@ -126,5 +127,4 @@ Goal: "everything on the site as editable as possible." Screens (see Figma Dashb
 ## Open items
 
 - SignSpeak and Marston images; confirm the "more" projects list.
-- Devpost URL.
 - Writing post titles in Figma are placeholders.
