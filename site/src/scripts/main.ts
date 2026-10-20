@@ -1,5 +1,3 @@
-const reduced = matchMedia("(prefers-reduced-motion: reduce)");
-const desktop = matchMedia("(min-width: 1024px)");
 const $ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document) => r.querySelector<T>(s);
 const $$ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document) => [...r.querySelectorAll<T>(s)];
 
@@ -17,72 +15,152 @@ if (typed) {
   setTimeout(step, 250);
 }
 
-/* ---------- fade-ins, once per screen ---------- */
+/* ---------- screens ----------
+   Desktop (wide + mouse/trackpad): the page doesn't scroll. Screens sit on an
+   arc like the rim of a wheel; the wheel turns one screen at a time and the
+   new screen's content animates in. Tall screens scroll inside first.
+   Phones/tablets: normal scrolling, content fades in as it arrives. */
 const screens = $$("[data-screen]");
-const fadeObs = new IntersectionObserver((entries) => {
-  for (const e of entries) if (e.isIntersecting) { e.target.classList.add("shown"); fadeObs.unobserve(e.target); }
-}, { threshold: 0.12 });
-screens.forEach((s) => fadeObs.observe(s));
-
-/* ---------- active section ---------- */
 const sections = $$("[data-section]");
 const navLinks = new Map($$<HTMLAnchorElement>("[data-nav]").map((a) => [a.dataset.nav!, a]));
+const wheelMode = matchMedia("(min-width: 1024px) and (hover: hover)");
+const root = document.documentElement;
 let active = "";
-const updateActive = () => {
-  const line = innerHeight * 0.35;
-  let current = sections[0]?.id ?? "";
-  for (const s of sections) if (s.getBoundingClientRect().top <= line) current = s.id;
-  // at the very bottom, the last section wins
-  if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) current = sections.at(-1)!.id;
-  if (current === active) return;
+let cur = 0;
+
+const setActive = (id: string) => {
+  if (id === active) return;
   navLinks.get(active)?.classList.remove("active");
-  navLinks.get(current)?.classList.add("active");
-  active = current;
+  navLinks.get(id)?.classList.add("active");
+  active = id;
 };
+
+// which section is "current": the last one whose top has passed 35% of the view
+const activeIn = (list: HTMLElement[], top: number, atEnd: boolean) => {
+  let id = list[0]?.id ?? "";
+  for (const s of list) if (s.getBoundingClientRect().top <= top) id = s.id;
+  return atEnd ? list.at(-1)!.id : id;
+};
+const syncActive = () => {
+  if (root.classList.contains("wheel")) {
+    const sc = screens[cur];
+    const list = $$("[data-section]", sc);
+    setActive(activeIn(list, innerHeight * 0.35, sc.scrollTop + sc.clientHeight >= sc.scrollHeight - 2 && sc.scrollTop > 0));
+  } else {
+    setActive(activeIn(sections, innerHeight * 0.35, innerHeight + scrollY >= root.scrollHeight - 2));
+  }
+};
+
+const reveal = (sc: Element) => sc.classList.add("shown");
+let fadeObs: IntersectionObserver | undefined;
+
+const place = (n: number, dir: 1 | -1 | 0) => {
+  screens.forEach((sc, k) => {
+    sc.classList.toggle("cur", k === n);
+    sc.classList.toggle("above", k < n);
+    sc.classList.toggle("below", k > n);
+    sc.toggleAttribute("inert", k !== n);
+  });
+  const sc = screens[n];
+  if (dir === -1) sc.scrollTop = sc.scrollHeight; // coming back up: start at its end
+  else if (dir === 1) sc.scrollTop = 0;
+  // replay the arrival animation each time a screen turns in
+  sc.classList.remove("shown");
+  void (sc as HTMLElement).offsetWidth;
+  requestAnimationFrame(() => reveal(sc));
+};
+
+let lockUntil = 0, lastWheel = 0, acc = 0;
+const TURN_MS = 760;
+const turn = (n: number) => {
+  n = Math.max(0, Math.min(screens.length - 1, n));
+  if (n === cur) return false;
+  const dir = n > cur ? 1 : -1;
+  cur = n;
+  place(n, dir);
+  lockUntil = performance.now() + TURN_MS;
+  acc = 0;
+  closeMenu();
+  syncActive();
+  return true;
+};
+
+const canScroll = (sc: HTMLElement, dir: number) =>
+  dir > 0 ? sc.scrollTop + sc.clientHeight < sc.scrollHeight - 2 : sc.scrollTop > 2;
+
+const onWheel = (e: WheelEvent) => {
+  if (!root.classList.contains("wheel") || e.ctrlKey) return;
+  if (e.target instanceof Element && e.target.closest("dialog, [data-ctx]")) return;
+  e.preventDefault();
+  const now = performance.now();
+  const gap = now - lastWheel;
+  lastWheel = now;
+  // trackpad momentum keeps firing after a turn; wait for it to die down
+  if (now < lockUntil || (gap < 120 && now < lockUntil + 400)) return;
+  const sc = screens[cur];
+  const dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
+  if (canScroll(sc, dy)) { sc.scrollTop += dy; acc = 0; return; }
+  acc += dy;
+  if (Math.abs(acc) > 60) turn(cur + Math.sign(acc));
+};
+
+const enableWheel = () => {
+  root.classList.add("wheel");
+  fadeObs?.disconnect();
+  const fromHash = location.hash && document.getElementById(location.hash.slice(1));
+  cur = fromHash ? Math.max(0, screens.findIndex((s) => s.contains(fromHash))) : 0;
+  place(cur, 0);
+  syncActive();
+};
+const disableWheel = () => {
+  root.classList.remove("wheel");
+  screens.forEach((sc) => { sc.classList.remove("cur", "above", "below"); sc.removeAttribute("inert"); });
+  fadeObs = new IntersectionObserver((entries) => {
+    for (const e of entries) if (e.isIntersecting) { reveal(e.target); fadeObs!.unobserve(e.target); }
+  }, { threshold: 0.12 });
+  screens.forEach((s) => fadeObs!.observe(s));
+  syncActive();
+};
+
+addEventListener("wheel", onWheel, { passive: false });
+screens.forEach((sc) => sc.addEventListener("scroll", () => { if (sc === screens[cur]) { syncActive(); closeMenu(); } }, { passive: true }));
 let ticking = false;
 addEventListener("scroll", () => {
   if (ticking) return;
   ticking = true;
-  requestAnimationFrame(() => { ticking = false; updateActive(); });
+  requestAnimationFrame(() => { ticking = false; syncActive(); });
 }, { passive: true });
-updateActive();
 
-const behavior = (): ScrollBehavior => (reduced.matches ? "auto" : "smooth");
 const goTo = (id: string) => {
   const el = document.getElementById(id);
   if (!el) return;
-  // jump to the screen when the section starts one, so snap lines up
-  const screen = el.closest("[data-screen]") as HTMLElement | null;
-  const target = screen && screen.querySelector("[data-section]") === el ? screen : el;
-  target.scrollIntoView({ behavior: behavior(), block: "start" });
   history.replaceState(null, "", `#${id}`);
+  if (root.classList.contains("wheel")) {
+    const n = screens.findIndex((s) => s.contains(el));
+    turn(n);
+    const sc = screens[n];
+    const first = sc.querySelector("[data-section]") === el;
+    sc.scrollTo({ top: first ? 0 : el.offsetTop - 96, behavior: "smooth" });
+    setActive(id);
+    return;
+  }
+  el.scrollIntoView({ behavior: "smooth", block: "start" });
 };
 navLinks.forEach((a, id) => a.addEventListener("click", (e) => { e.preventDefault(); goTo(id); }));
 
-/* ---------- keyboard screen jumps (desktop, snap on) ---------- */
 const typing = (t: EventTarget | null) =>
   t instanceof HTMLElement && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));
 
+// keys: move within a tall screen first, then turn to the next one
 const jump = (dir: 1 | -1) => {
-  const tops = screens.map((s) => s.getBoundingClientRect().top + scrollY);
-  const y = scrollY;
-  const idx = tops.findLastIndex((t) => t <= y + 4);
-  const cur = screens[Math.max(idx, 0)];
-  if (dir === 1) {
-    const bottom = cur.getBoundingClientRect().bottom;
-    // tall screens (experience, friends) scroll freely inside before moving on
-    if (bottom > innerHeight + 8) {
-      const next = tops[idx + 1];
-      const by = Math.min(innerHeight * 0.85, bottom - innerHeight);
-      return scrollTo({ top: next !== undefined && y + by >= next - 8 ? next : y + by, behavior: behavior() });
-    }
-    if (tops[idx + 1] !== undefined) scrollTo({ top: tops[idx + 1], behavior: behavior() });
-  } else {
-    const top = tops[Math.max(idx, 0)];
-    if (y > top + 8) return scrollTo({ top: Math.max(top, y - innerHeight * 0.85), behavior: behavior() });
-    if (idx > 0) scrollTo({ top: tops[idx - 1], behavior: behavior() });
-  }
+  if (performance.now() < lockUntil) return;
+  const sc = screens[cur];
+  if (canScroll(sc, dir)) sc.scrollBy({ top: dir * sc.clientHeight * 0.8, behavior: "smooth" });
+  else turn(cur + dir);
 };
+
+const applyMode = () => (wheelMode.matches ? enableWheel() : disableWheel());
+wheelMode.addEventListener("change", applyMode);
 
 /* ---------- toast + actions ---------- */
 const toast = $("[data-toast]")!;
@@ -182,6 +260,7 @@ addEventListener("contextmenu", (e) => {
 $$<HTMLButtonElement>("[data-run]", menu).forEach((b) => b.addEventListener("click", () => { closeMenu(); run(b.dataset.run!); }));
 addEventListener("pointerdown", (e) => { if (!menu.hidden && !menu.contains(e.target as Node)) closeMenu(); });
 addEventListener("scroll", () => { if (!menu.hidden) closeMenu(); }, { passive: true });
+applyMode();
 addEventListener("resize", closeMenu);
 
 // long-press on touch opens the same menu (outside links/buttons)
@@ -208,7 +287,7 @@ addEventListener("keydown", (e) => {
     if (s) { e.preventDefault(); goTo(s.id); }
     return;
   }
-  if (!desktop.matches) return;
+  if (!root.classList.contains("wheel")) return;
   const down = ["j", "PageDown", "ArrowDown"].includes(e.key) || (e.key === " " && !e.shiftKey);
   const up = ["k", "PageUp", "ArrowUp"].includes(e.key) || (e.key === " " && e.shiftKey);
   if (down || up) { e.preventDefault(); jump(down ? 1 : -1); }

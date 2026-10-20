@@ -1,7 +1,6 @@
 // Auto-advance is driven by the active dot's fill animation: when it ends,
 // go to the next slide. Hover (or being off screen) pauses the animation.
 
-const reduced = matchMedia("(prefers-reduced-motion: reduce)");
 
 function load(slide: Element | undefined) {
   slide?.querySelectorAll<HTMLImageElement>("img[data-src]").forEach((img) => {
@@ -33,7 +32,7 @@ export function initSlideshows() {
     dots.forEach((d) => {
       d.addEventListener("click", () => go(Number(d.dataset.dot)));
       d.querySelector(".fill")?.addEventListener("animationend", () => {
-        if (!reduced.matches) go(i + 1);
+        go(i + 1);
       });
     });
     root.querySelector("[data-prev]")?.addEventListener("click", () => go(i - 1));

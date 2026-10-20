@@ -42,10 +42,6 @@ const dotGroups = groups.map((size) => Array.from({ length: size }, () => n++));
   .dot[aria-current="true"] .fill { animation: fill 6s linear forwards; }
   .show.paused .dot[aria-current="true"] .fill { animation-play-state: paused; }
   @keyframes fill { to { width: 100%; } }
-  @media (prefers-reduced-motion: reduce) {
-    .dot { transition: none; }
-    .dot[aria-current="true"] .fill { animation: none; width: 100%; }
-  }
 </style>
 
 <script>

@@ -32,6 +32,3 @@ img { display: block; max-width: 100%; }
 /* fade-ins (only once JS is running) */
 .js .fade { opacity: 0; transform: translateY(8px); transition: opacity .6s ease-out, transform .6s ease-out; transition-delay: calc(var(--i, 0) * 70ms); }
 .js .shown .fade, .js .fade.shown { opacity: 1; transform: none; }
-@media (prefers-reduced-motion: reduce) {
-  .js .fade { transform: none; }
-}

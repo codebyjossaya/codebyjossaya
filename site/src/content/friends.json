@@ -1,20 +1,34 @@
 {
   "intro": "people i build with, learn from, and bother.",
   "people": [
-    { "name": "Amarnath Patel", "url": "https://apatel.co", "line": "physics (optics & lasers) and math at UCF" },
-    { "name": "Zachary Lopez", "url": "https://zachl.tech", "line": "computer engineer & software developer" },
-    { "name": "Makai Pindell", "url": "https://makaip.com", "line": "ML enthusiast and software developer" },
-    { "name": "Alex Castronovo", "url": "https://alexcastronovo.com", "line": "programmer, neuroscience researcher, satellite subsystem lead" },
-    { "name": "Eoghan McIvor", "url": "https://eoghan.codes", "line": "full stack engineer into robotics and embedded systems software" }
+    {
+      "name": "Amarnath Patel",
+      "url": "https://apatel.co",
+      "line": "physics (optics & lasers) and math at UCF"
+    },
+    {
+      "name": "Zachary Lopez",
+      "url": "https://zachl.tech",
+      "line": "computer engineer & software developer"
+    },
+    {
+      "name": "Makai Pindell",
+      "url": "https://makaip.com",
+      "line": "ML enthusiast and software developer"
+    },
+    {
+      "name": "Alex Castronovo",
+      "url": "https://alexcastronovo.com",
+      "line": "programmer, neuroscience researcher, satellite subsystem lead"
+    },
+    {
+      "name": "Eoghan McIvor",
+      "url": "https://eoghan.codes",
+      "line": "full stack engineer into robotics and embedded systems software"
+    }
   ],
-  "photos": [
-    { "image": "/img/placeholder-friends-1.svg", "alt": "Placeholder: FIU arch sculpture at night", "caption": "" },
-    { "image": "/img/placeholder-friends-2.svg", "alt": "Placeholder: prom selfie", "caption": "" },
-    { "image": "/img/placeholder-friends-3.svg", "alt": "Placeholder: research symposium", "caption": "April 2025 - Research presentation at FAU Wilkes Honors College Symposium" },
-    { "image": "/img/placeholder-friends-4.svg", "alt": "Placeholder: FAU graduation", "caption": "" },
-    { "image": "/img/placeholder-friends-5.svg", "alt": "Placeholder: restaurant selfie", "caption": "" },
-    { "image": "/img/placeholder-friends-6.svg", "alt": "Placeholder: HiPerGator server room", "caption": "" },
-    { "image": "/img/placeholder-friends-7.svg", "alt": "Placeholder: marsh boardwalk", "caption": "" },
-    { "image": "/img/placeholder-friends-8.svg", "alt": "Placeholder: Salt Company Gainesville wall", "caption": "" }
-  ]
+  "photo": {
+    "image": "/img/friends-symposium.webp",
+    "alt": "Group photo at the FAU Wilkes Honors College research symposium"
+  }
 }

@@ -13,7 +13,6 @@ const canvas = document.getElementById("grid") as HTMLCanvasElement | null;
 const ctx = canvas?.getContext("2d");
 
 if (canvas && ctx) {
-  const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const finePointer = matchMedia("(hover: hover) and (pointer: fine)");
 
   let w = 0, h = 0, dpr = 1;
@@ -21,7 +20,6 @@ if (canvas && ctx) {
   let tx = -1e4, ty = -1e4, lx = -1e4, ly = -1e4;
   let amp = 0, ampTarget = 0; // warp amount 0..1
   let glow = 0, glowTarget = 0; // glow visibility 0..1
-  let idle: number | undefined;
   let raf = 0;
 
   const resize = () => {
@@ -95,14 +93,13 @@ if (canvas && ctx) {
   };
   const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
 
+  // The lens stays bent while the cursor is over the page; it only follows with
+  // a slight spring lag. Not gated on reduced motion: it is small and pointer-driven.
   addEventListener("pointermove", (e) => {
     if (e.pointerType !== "mouse" || !finePointer.matches) return;
     tx = e.clientX; ty = e.clientY;
     glowTarget = 1;
-    ampTarget = reduced.matches ? 0 : 1;
-    if (reduced.matches) { lx = tx; ly = ty; } // no gliding either
-    clearTimeout(idle);
-    idle = window.setTimeout(() => { ampTarget = 0; kick(); }, 140);
+    ampTarget = 1;
     kick();
   }, { passive: true });
 

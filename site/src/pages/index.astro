@@ -112,10 +112,12 @@ const social = [...profile.links];
             <Slideshow label="projects" count={slides.length} groups={[featured.length, more.length].filter(Boolean)}>
               {slides.map((p, i) => (
                 <article class="slide project">
-                  <div class="frame">
-                    <img data-src={p.image} alt={p.alt} width="1200" height="750" decoding="async" />
-                    <span class="badge mono">{pad(i + 1)}</span>
-                  </div>
+                  {p.image ? (
+                    <div class="frame">
+                      <img data-src={p.image} alt={p.alt} width="1200" height="750" decoding="async" />
+                      <span class="badge mono">{pad(i + 1)}</span>
+                    </div>
+                  ) : <span class="badge static mono">{pad(i + 1)}</span>}
                   <h3>
                     {p.url ? <a href={p.url} target="_blank" rel="noopener">{p.title} <span class="arr">↗</span></a> : p.title}
                     {p.year && <span class="year mono">{p.year}</span>}
@@ -163,19 +165,9 @@ const social = [...profile.links];
               </li>
             ))}
           </ul>
-          <div class="fade photos" style="--i:3">
-            <Slideshow label="photos with friends" count={friends.photos.length}>
-              {friends.photos.map((p, i) => (
-                <figure class="slide">
-                  <div class="frame">
-                    <img data-src={p.image} alt={p.alt} width="1200" height="750" decoding="async" />
-                    <span class="badge mono">{i + 1} / {friends.photos.length}</span>
-                  </div>
-                  {p.caption && <figcaption class="mono">{p.caption}</figcaption>}
-                </figure>
-              ))}
-            </Slideshow>
-          </div>
+          {friends.photo && (
+            <img class="fade photo-one" style="--i:3" src={friends.photo.image} alt={friends.photo.alt} width="1296" height="972" loading="lazy" decoding="async" />
+          )}
         </section>
 
         {published.length > 0 && (
@@ -229,7 +221,7 @@ const social = [...profile.links];
   .hint kbd { font: inherit; color: var(--muted); margin-right: 8px; }
 
   .main { padding: 0 0 48px; }
-  .screen { min-height: 100vh; padding: 96px 0 64px; scroll-snap-align: start; }
+  .screen { min-height: 100vh; padding: 96px 0 64px; }
   section + section { margin-top: 64px; }
   .label { margin: 0 0 20px; font-size: 13px; font-weight: 400; color: var(--accent); }
   section p { margin: 0 0 16px; color: #bdbdc5; }
@@ -276,9 +268,8 @@ const social = [...profile.links];
   .fname { color: var(--text); }
   .fline { color: var(--muted); }
   .friends .link { font-size: 12px; color: var(--muted); }
-  .photos { margin-top: 40px; }
-  .photos figure { margin: 0; }
-  .photos figcaption { margin-top: 12px; font-size: 12px; color: var(--dim); }
+  .photo-one { margin-top: 40px; width: 100%; height: auto; border-radius: 6px; background: var(--surface); }
+  .badge.static { position: static; display: inline-block; }
 
   .footer { margin-top: 96px; font-size: 12px; color: var(--muted); }
   .footer p { margin: 0 0 6px; color: inherit; }
@@ -286,9 +277,21 @@ const social = [...profile.links];
 
   .topbar { display: none; }
 
-  @media (min-width: 1024px) {
-    :global(html) { scroll-snap-type: y proximity; }
+  /* wheel mode (desktop): screens are stacked on a vertical strip, like a
+     painted wheel seen face-on. Turning it slides the old screen up and out
+     while the next one rises in from below (flat, no tilt or depth). */
+  :global(html.wheel), :global(html.wheel body) { height: 100%; overflow: hidden; }
+  :global(html.wheel) .main { position: relative; height: 100vh; padding: 0; }
+  :global(html.wheel) .screen {
+    position: absolute; inset: 0; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none;
+    transition: transform .76s cubic-bezier(.22,.8,.24,1), opacity .5s ease;
+    opacity: 0; visibility: hidden;
   }
+  :global(html.wheel) .screen::-webkit-scrollbar { display: none; }
+  :global(html.wheel) .screen.above { transform: translateY(-55vh); }
+  :global(html.wheel) .screen.below { transform: translateY(55vh); }
+  :global(html.wheel) .screen.cur { transform: none; opacity: 1; visibility: visible; transition: transform .76s cubic-bezier(.22,.8,.24,1), opacity .6s ease .08s; }
+  :global(html.wheel) .screen:not(.cur) { transition: transform .76s cubic-bezier(.22,.8,.24,1), opacity .4s ease, visibility 0s linear .76s; }
 
   @media (max-width: 1023px) {
     .topbar { display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; height: 52px; padding: 0 20px; background: rgb(11 11 13 / .92); border-bottom: 1px solid var(--line); font-size: 13px; color: var(--muted); }
