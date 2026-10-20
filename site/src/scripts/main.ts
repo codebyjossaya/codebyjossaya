@@ -75,8 +75,7 @@ const place = (n: number, dir: 1 | -1 | 0) => {
 
 // a short lock so one notch can't skip two screens; trackpad momentum from the
 // same swipe is ignored, but a new swipe can turn again right away
-let lockUntil = 0, lastWheel = 0, acc = 0, lastDy = 0, coasting = false, minDy = Infinity, maxDy = 0;
-let hist: number[] = [];
+let lockUntil = 0, lastWheel = 0, acc = 0, lastDy = 0, coasting = false, minDy = Infinity, turnedAt = 0, rising = 0;
 const TURN_MS = 450;
 const turn = (n: number) => {
   n = Math.max(0, Math.min(screens.length - 1, n));
@@ -88,8 +87,8 @@ const turn = (n: number) => {
   acc = 0;
   coasting = true;
   minDy = Infinity;
-  maxDy = 0;
-  hist = [];
+  rising = 0;
+  turnedAt = performance.now();
   closeMenu();
   syncActive();
   return true;
@@ -109,16 +108,14 @@ const onWheel = (e: WheelEvent) => {
   // Momentum after a swipe keeps shrinking. A new swipe shows up as a pause,
   // or as deltas climbing again after the momentum has died down.
   if (coasting) {
-    maxDy = Math.max(maxDy, raw);
     minDy = Math.min(minDy, raw);
-    hist.push(raw);
-    if (hist.length > 6) hist.shift();
-    const avg = (a: number[]) => a.reduce((x, y) => x + y, 0) / (a.length || 1);
-    // only call it a new swipe once the old one has clearly died down AND the
-    // recent deltas are clearly climbing (averaged, so jitter doesn't count)
-    const decayed = minDy < maxDy * 0.3;
-    const climbing = hist.length === 6 && avg(hist.slice(3)) > avg(hist.slice(0, 3)) * 1.8 + 4 && raw >= 12;
-    const freshSwipe = gap > 200 || (decayed && climbing);
+    // Momentum from the swipe that just turned the screen never counts.
+    // It ends after a real pause, or (once the turn has settled) when a delta
+    // stays well above the momentum's low point for several events in a row:
+    // a deliberate new swipe (a single spike in the momentum doesn't count).
+    const settled = now - turnedAt > 650;
+    rising = settled && raw > minDy * 3 + 18 ? rising + 1 : 0;
+    const freshSwipe = gap > 160 || rising >= 3;
     const notch = raw >= 50 && Math.abs(raw - lastDy) < 1 && gap > 120;
     if (freshSwipe || notch) coasting = false;
   }
@@ -127,6 +124,7 @@ const onWheel = (e: WheelEvent) => {
   const sc = screens[cur];
   const dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
   if (canScroll(sc, dy)) { sc.scrollTop += dy; acc = 0; return; }
+  if (Math.abs(dy) < 4) return; // stray momentum crumbs never add up to a turn
   acc += dy;
   if (Math.abs(acc) > 50) turn(cur + Math.sign(acc));
 };
