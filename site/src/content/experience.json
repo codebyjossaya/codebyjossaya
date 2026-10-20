@@ -1,0 +1,6 @@
+[
+  { "dates": "Sep 2026 — now", "role": "Software Engineer Intern", "org": "AD Vantage", "url": "", "summary": "Building coach search: UI, Postgres, REST.", "tags": ["postgres", "rest"] },
+  { "dates": "Jan — May 2026", "role": "Software Research Assistant", "org": "UF Nelms Institute", "url": "", "summary": "NIR spectroscopy on 2,400 samples with an SVM/RF dual-head model under PI Swarup Bhunia: 88.4% accuracy, sub-0.15mm MAE.", "tags": ["svm", "random-forest", "nir"] },
+  { "dates": "Aug — Dec 2025", "role": "Robotics Software Contributor", "org": "UF Machine Intelligence Lab", "url": "", "summary": "Ran MiDaS, DepthAnythingV2 and DepthPro on a Jetson Nano for the SubjuGator AUV.", "tags": ["jetson", "depth-estimation"] },
+  { "dates": "May 2024 — May 2025", "role": "Software Research Assistant", "org": "FAU BSIA Lab", "url": "", "summary": "Monocular 3D pose gait analysis under PI Behnaz Ghoraani, supported by a research grant.", "tags": ["pose-estimation"] }
+]

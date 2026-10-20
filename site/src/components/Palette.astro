@@ -1,0 +1,73 @@
+---
+import profile from "../content/profile.json";
+import friends from "../content/friends.json";
+
+interface Props { sections: { id: string; label: string }[] }
+const { sections } = Astro.props;
+
+// verb, label, action, shortcut hint
+const commands = [
+  ...sections.map((s, i) => ({ verb: "go to", label: s.label, run: `goto:${s.id}`, key: String(i + 1) })),
+  { verb: "copy", label: "email", run: `copy:${profile.email}`, key: "" },
+  ...profile.links.map((l) => ({ verb: "open", label: l.label, run: `open:${l.url}`, key: "" })),
+  { verb: "download", label: "resume.pdf", run: `download:${profile.resume}`, key: "" },
+  { verb: "open", label: "source on github", run: `open:${profile.source}`, key: "" },
+  { verb: "visit", label: "a random friend's site", run: "friend", key: "" },
+];
+const friendUrls = friends.people.map((f) => f.url);
+---
+<dialog class="palette" data-palette aria-label="command palette">
+  <div class="box mono">
+    <label class="prompt"><span>&gt;</span><input data-q type="text" placeholder="type a command" autocomplete="off" spellcheck="false" aria-controls="cmd-list" /></label>
+    <ul id="cmd-list" role="listbox" data-list>
+      {commands.map((c) => (
+        <li role="option" data-run={c.run} data-text={`${c.verb} ${c.label}`}>
+          <span class="verb">{c.verb}</span><span class="what">{c.label}</span>{c.key && <kbd>{c.key}</kbd>}
+        </li>
+      ))}
+    </ul>
+    <p class="empty" data-empty hidden></p>
+  </div>
+</dialog>
+
+<div class="ctx mono" data-ctx role="menu" hidden>
+  {sections.map((s) => <button role="menuitem" data-run={`goto:${s.id}`} data-sec={s.id}>{s.label}</button>)}
+  <hr />
+  <button role="menuitem" data-run={`copy:${profile.email}`}>copy email</button>
+  <button role="menuitem" data-run={`open:${profile.source}`}>view source</button>
+  <button role="menuitem" data-run="palette">open ⌘K</button>
+  <p class="ctx-note">shift + right-click for the browser menu</p>
+</div>
+
+<div class="toast mono" data-toast role="status" aria-live="polite"></div>
+
+<script is:inline type="application/json" id="friend-urls" set:html={JSON.stringify(friendUrls)} />
+
+<style>
+  .palette { padding: 0; border: 0; background: none; width: min(560px, calc(100vw - 32px)); margin: 18vh auto auto; color: var(--text); }
+  .palette::backdrop { background: rgb(5 5 7 / .7); }
+  .palette[open] { animation: fadein .15s ease-out; }
+  .box { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; font-size: 13px; }
+  .prompt { display: flex; gap: 10px; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+  .prompt span { color: var(--accent); }
+  .prompt input { flex: 1; background: none; border: 0; outline: 0; color: var(--text); font: inherit; }
+  .prompt input::placeholder { color: var(--dim); }
+  ul { list-style: none; margin: 0; padding: 6px; max-height: 50vh; overflow: auto; }
+  li { display: grid; grid-template-columns: 80px 1fr auto; align-items: center; padding: 8px 10px; border-radius: 4px; cursor: pointer; color: var(--muted); }
+  li[aria-selected="true"] { background: #1c1c22; color: var(--text); }
+  .verb { color: var(--dim); }
+  li[aria-selected="true"] .verb { color: var(--accent); }
+  kbd { font: inherit; font-size: 11px; color: var(--dim); border: 1px solid var(--line); border-radius: 3px; padding: 0 5px; }
+  .empty { margin: 0; padding: 14px 16px; color: var(--muted); }
+
+  .ctx { position: fixed; z-index: 50; min-width: 200px; padding: 6px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; font-size: 12px; animation: fadein .1s ease-out; }
+  .ctx button { display: block; width: 100%; text-align: left; padding: 6px 10px; border-radius: 3px; color: var(--muted); }
+  .ctx button:hover, .ctx button:focus-visible { background: #1c1c22; color: var(--text); outline: 0; }
+  .ctx button.active { color: var(--accent); }
+  .ctx hr { border: 0; border-top: 1px solid var(--line); margin: 6px 0; }
+  .ctx-note { margin: 6px 10px 2px; font-size: 10px; color: var(--dim); }
+
+  .toast { position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%); z-index: 60; font-size: 12px; color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 6px 12px; opacity: 0; pointer-events: none; transition: opacity .2s; }
+  .toast.on { opacity: 1; }
+  @keyframes fadein { from { opacity: 0; } }
+</style>

@@ -1,0 +1,22 @@
+{
+  "name": "Jossaya Camille",
+  "title": "Jossaya Camille",
+  "currently": "Software Engineer Intern @ AD Vantage",
+  "photo": "/img/headshot.webp",
+  "photoAlt": "Jossaya Camille",
+  "typing": true,
+  "verse": { "text": "Let everything that has breath praise the LORD! Praise the LORD!", "ref": "psalm 150:6" },
+  "about": [
+    "I'm Jossaya, a second-year computer engineering student at UF. For the last few years, I have been exploring my passion for applied machine learning and computer vision through research experience, coursework, and personal projects.",
+    "I'm also drawn to software engineering, full-stack web development, and embedded systems."
+  ],
+  "stack": ["python", "pytorch", "opencv", "typescript", "react", "postgres", "c/c++", "vhdl"],
+  "email": "jossayacamille@gmail.com",
+  "links": [
+    { "label": "github", "display": "github.com/codebyjossaya", "url": "https://github.com/codebyjossaya" },
+    { "label": "linkedin", "display": "linkedin.com/in/jossayacamille", "url": "https://www.linkedin.com/in/jossayacamille" },
+    { "label": "devpost", "display": "devpost (url pending)", "url": "#TODO-devpost-url" }
+  ],
+  "resume": "/resume.pdf",
+  "source": "https://github.com/codebyjossaya/codebyjossaya"
+}

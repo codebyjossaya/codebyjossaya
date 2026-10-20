@@ -1,0 +1,312 @@
+---
+import Base from "../layouts/Base.astro";
+import Slideshow from "../components/Slideshow.astro";
+import Palette from "../components/Palette.astro";
+import profile from "../content/profile.json";
+import experience from "../content/experience.json";
+import projects from "../content/projects.json";
+import other from "../content/other.json";
+import friends from "../content/friends.json";
+
+const posts = Object.values(import.meta.glob("../content/posts/*.md", { eager: true })) as any[];
+const published = posts.filter((p) => p.frontmatter?.published !== false);
+
+const sections = [
+  { id: "about", label: "about" },
+  { id: "contact", label: "contact" },
+  { id: "experience", label: "experience" },
+  { id: "projects", label: "projects" },
+  { id: "other", label: "other stuff" },
+  { id: "friends", label: "friends" },
+  ...(published.length ? [{ id: "writing", label: "writing" }] : []),
+];
+
+const featured = projects.filter((p) => p.featured);
+const more = projects.filter((p) => !p.featured);
+const slides = [...featured, ...more];
+const otherSorted = [...other].sort((a, b) => a.start.localeCompare(b.start));
+const pad = (n: number) => String(n).padStart(2, "0");
+const deployed = new Date().toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "America/New_York" }).toLowerCase();
+const social = [...profile.links];
+---
+<Base>
+  <div class="topbar mono">
+    <a href="#about">~/jossaya</a>
+    <button data-open-palette>menu ⌘</button>
+  </div>
+
+  <div class="wrap">
+    <aside class="side">
+      <img class="photo" src={profile.photo} alt={profile.photoAlt} width="120" height="120" />
+      <h1 class="name mono"><span data-type={profile.typing ? profile.name : undefined}>{profile.name}</span><span class="cursor" aria-hidden="true"></span></h1>
+      <p class="currently">{profile.currently}</p>
+
+      <nav class="toc mono" aria-label="sections">
+        <ul>
+          {sections.map((s) => (
+            <li><a href={`#${s.id}`} data-nav={s.id}><span class="bar"></span>{s.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="side-foot">
+        <ul class="socials mono">
+          {social.map((l) => <li><a href={l.url} target="_blank" rel="noopener">{l.label}</a></li>)}
+          <li><a class="accent" href={profile.resume} download>resume.pdf ↓</a></li>
+        </ul>
+        <figure class="verse">
+          <blockquote>{profile.verse.text}</blockquote>
+          <figcaption class="mono">{profile.verse.ref}</figcaption>
+        </figure>
+        <button class="hint mono" data-open-palette><kbd>⌘K</kbd> jump anywhere, right-click for more</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="screen" data-screen>
+        <section id="about" data-section>
+          <h2 class="label mono fade">about</h2>
+          {profile.about.map((p, i) => <p class="fade" style={`--i:${i + 1}`}>{p}</p>)}
+          <p class="stack mono fade" style="--i:3">{profile.stack.join("  ")}</p>
+        </section>
+
+        <section id="contact" data-section>
+          <h2 class="label mono fade" style="--i:4">contact</h2>
+          <dl class="rows fade" style="--i:5">
+            <div>
+              <dt class="mono">email</dt>
+              <dd><span>{profile.email}</span> <button class="copy mono" data-copy={profile.email}>copy</button></dd>
+            </div>
+            {profile.links.map((l) => (
+              <div><dt class="mono">{l.label}</dt><dd><a class="link" href={l.url} target="_blank" rel="noopener">{l.display}</a></dd></div>
+            ))}
+            <div><dt class="mono">resume</dt><dd><a class="link" href={profile.resume} download>resume.pdf ↓</a></dd></div>
+          </dl>
+        </section>
+      </div>
+
+      <div class="screen" data-screen>
+        <section id="experience" data-section>
+          <h2 class="label mono fade">experience</h2>
+          <ol class="exp">
+            {experience.map((e, i) => (
+              <li class="fade" style={`--i:${i + 1}`}>
+                <span class="date mono">{e.dates}</span>
+                <div>
+                  <h3>{e.role} <span class="at">@</span> {e.url
+                    ? <a class="org" href={e.url} target="_blank" rel="noopener">{e.org}<span class="arr"> ↗</span></a>
+                    : <span class="org">{e.org}</span>}</h3>
+                  <p>{e.summary}</p>
+                  <p class="tags mono">{e.tags.map((t) => `#${t}`).join(" ")}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+      </div>
+
+      <div class="screen" data-screen>
+        <section id="projects" data-section>
+          <h2 class="label mono fade">projects</h2>
+          <div class="fade" style="--i:1">
+            <Slideshow label="projects" count={slides.length} groups={[featured.length, more.length].filter(Boolean)}>
+              {slides.map((p, i) => (
+                <article class="slide project">
+                  <div class="frame">
+                    <img data-src={p.image} alt={p.alt} width="1200" height="750" decoding="async" />
+                    <span class="badge mono">{pad(i + 1)}</span>
+                  </div>
+                  <h3>
+                    {p.url ? <a href={p.url} target="_blank" rel="noopener">{p.title} <span class="arr">↗</span></a> : p.title}
+                    {p.year && <span class="year mono">{p.year}</span>}
+                  </h3>
+                  {p.context && <p class="context mono">{p.context}</p>}
+                  {p.description && <p>{p.description}</p>}
+                  {p.links?.length ? <p class="extra mono">{p.links.map((l) => <a class="link" href={l.url} target="_blank" rel="noopener">{l.label} ↗</a>)}</p> : null}
+                  {p.tags.length ? <p class="tags mono">{p.tags.map((t) => `#${t}`).join(" ")}</p> : null}
+                </article>
+              ))}
+            </Slideshow>
+          </div>
+        </section>
+      </div>
+
+      <div class="screen" data-screen>
+        <section id="other" data-section>
+          <h2 class="label mono fade">other stuff i'm up to</h2>
+          <ol class="exp light">
+            {otherSorted.map((o, i) => (
+              <li class="fade" style={`--i:${i + 1}`}>
+                <span class="date mono">{o.dates}</span>
+                <div>
+                  <h3>{o.url
+                    ? <a class="role" href={o.url} target="_blank" rel="noopener">{o.role} ↗</a>
+                    : <span class="role">{o.role}</span>}{o.org && <> <span class="at">@</span> <span class="org">{o.org}</span></>}</h3>
+                  <p>{o.line}{o.live && <> <a class="link mono live" href={o.live} target="_blank" rel="noopener">{o.live.replace("https://", "")}</a></>}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+      </div>
+
+      <div class="screen" data-screen>
+        <section id="friends" data-section>
+          <h2 class="label mono fade">friends</h2>
+          <p class="intro fade" style="--i:1">{friends.intro}</p>
+          <ul class="friends fade" style="--i:2">
+            {friends.people.map((f) => (
+              <li>
+                <span class="fname">{f.name}</span>
+                <span class="fline">{f.line}</span>
+                <a class="link mono" href={f.url} target="_blank" rel="noopener">{f.url.replace("https://", "")} ↗</a>
+              </li>
+            ))}
+          </ul>
+          <div class="fade photos" style="--i:3">
+            <Slideshow label="photos with friends" count={friends.photos.length}>
+              {friends.photos.map((p, i) => (
+                <figure class="slide">
+                  <div class="frame">
+                    <img data-src={p.image} alt={p.alt} width="1200" height="750" decoding="async" />
+                    <span class="badge mono">{i + 1} / {friends.photos.length}</span>
+                  </div>
+                  {p.caption && <figcaption class="mono">{p.caption}</figcaption>}
+                </figure>
+              ))}
+            </Slideshow>
+          </div>
+        </section>
+
+        {published.length > 0 && (
+          <section id="writing" data-section>
+            <h2 class="label mono fade">writing</h2>
+            <ul class="posts">
+              {published.map((p) => <li class="fade"><span class="date mono">{p.frontmatter.date}</span> {p.frontmatter.title}</li>)}
+            </ul>
+          </section>
+        )}
+
+        <footer class="footer mono">
+          <p>made with ❤️ by {profile.name}</p>
+          <p><a class="link" href={profile.source} target="_blank" rel="noopener">view source on github</a></p>
+          <p class="dim">last deployed {deployed}</p>
+        </footer>
+      </div>
+    </main>
+  </div>
+
+  <Palette sections={sections} />
+
+  <script>
+    import "../scripts/main";
+  </script>
+</Base>
+
+<style>
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 0 48px; display: grid; grid-template-columns: 440px minmax(0, 648px); justify-content: space-between; column-gap: 48px; }
+  .side { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; padding: 96px 0 48px; }
+  .photo { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; }
+  .name { font-size: 34px; font-weight: 700; line-height: 1.2; margin: 28px 0 8px; letter-spacing: -.01em; white-space: nowrap; }
+  .currently { margin: 0; color: var(--muted); font-size: 15px; }
+  .toc { margin-top: 56px; font-size: 13px; }
+  .toc ul, .socials, .friends, .exp, .posts { list-style: none; margin: 0; padding: 0; }
+  .toc a { display: flex; align-items: center; height: 30px; color: var(--dim); transition: color .25s ease-out; }
+  .toc a:hover { color: var(--muted); }
+  .toc .bar { display: block; height: 1px; width: 0; background: var(--text); margin-right: 0; transition: width .25s ease-out, margin-right .25s ease-out; }
+  .toc a.active { color: var(--text); }
+  .toc a.active .bar { width: 40px; margin-right: 14px; }
+  .side-foot { margin-top: auto; }
+  .socials { display: flex; gap: 20px; font-size: 13px; color: var(--muted); }
+  .socials a:hover { color: var(--text); }
+  .accent { color: var(--accent); }
+  .socials a.accent:hover { color: var(--accent); opacity: .8; }
+  .verse { margin: 32px 0 20px; max-width: 340px; }
+  .verse blockquote { margin: 0; font-style: italic; font-size: 13px; line-height: 1.55; color: var(--muted); }
+  .verse figcaption { margin-top: 6px; font-size: 11px; color: var(--dim); }
+  .hint { font-size: 11px; color: var(--dim); border: 1px solid var(--line); border-radius: 4px; padding: 6px 10px; transition: color .2s; text-align: left; }
+  .hint:hover { color: var(--muted); }
+  .hint kbd { font: inherit; color: var(--muted); margin-right: 8px; }
+
+  .main { padding: 0 0 48px; }
+  .screen { min-height: 100vh; padding: 96px 0 64px; scroll-snap-align: start; }
+  section + section { margin-top: 64px; }
+  .label { margin: 0 0 20px; font-size: 13px; font-weight: 400; color: var(--accent); }
+  section p { margin: 0 0 16px; color: #bdbdc5; }
+  .stack { font-size: 13px; color: var(--muted) !important; word-spacing: .4em; margin-top: 24px !important; }
+  .link { color: var(--text); transition: color .2s; }
+  .link:hover { color: var(--accent); }
+
+  .rows { margin: 0; }
+  .rows div { display: grid; grid-template-columns: 120px 1fr; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .rows div:first-child { border-top: 1px solid var(--line); }
+  .rows dt { color: var(--dim); font-size: 13px; padding-top: 2px; }
+  .rows dd { margin: 0; display: flex; gap: 14px; align-items: baseline; }
+  .copy { font-size: 12px; color: var(--dim); transition: color .2s; }
+  .copy:hover { color: var(--accent); }
+
+  .exp > li { display: grid; grid-template-columns: 168px 1fr; gap: 24px; padding: 22px 0; border-bottom: 1px solid var(--line); }
+  .date { font-size: 12px; color: var(--dim); padding-top: 4px; }
+  .exp h3 { margin: 0 0 6px; font-size: 16px; font-weight: 500; color: var(--text); }
+  .at { color: var(--dim); }
+  .org { color: var(--accent); }
+  .arr { opacity: 0; transition: opacity .2s; }
+  a:hover .arr { opacity: 1; }
+  .exp p { margin: 0 0 8px; font-size: 15px; }
+  .tags { font-size: 12px; color: var(--dim) !important; margin: 0 !important; }
+  .light > li { border: 0; padding: 14px 0; }
+  .light .role { color: var(--soft); transition: color .2s; }
+  .light a.role:hover { color: var(--accent); }
+  .light .org { color: var(--muted); }
+  .light p { color: var(--muted); }
+  .live { font-size: 12px; color: var(--dim); }
+
+  .frame { position: relative; }
+  .frame img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 6px; background: var(--surface); }
+  .badge { position: absolute; top: 12px; right: 12px; font-size: 11px; color: var(--text); background: rgb(11 11 13 / .8); border: 1px solid var(--line); border-radius: 4px; padding: 2px 7px; }
+  .project h3 { margin: 20px 0 4px; font-size: 18px; font-weight: 500; display: flex; align-items: baseline; gap: 12px; }
+  .project h3 a:hover { color: var(--accent); }
+  .year { font-size: 12px; color: var(--dim); font-weight: 400; }
+  .context { font-size: 13px; color: var(--accent) !important; margin-bottom: 8px !important; }
+  .project p { font-size: 15px; margin-bottom: 8px; }
+  .extra { display: flex; gap: 16px; font-size: 12px; }
+
+  .intro { color: var(--muted) !important; }
+  .friends li { display: grid; grid-template-columns: 168px 1fr auto; gap: 16px; padding: 10px 0; align-items: baseline; font-size: 15px; }
+  .fname { color: var(--text); }
+  .fline { color: var(--muted); }
+  .friends .link { font-size: 12px; color: var(--muted); }
+  .photos { margin-top: 40px; }
+  .photos figure { margin: 0; }
+  .photos figcaption { margin-top: 12px; font-size: 12px; color: var(--dim); }
+
+  .footer { margin-top: 96px; font-size: 12px; color: var(--muted); }
+  .footer p { margin: 0 0 6px; color: inherit; }
+  .dim { color: var(--dim) !important; }
+
+  .topbar { display: none; }
+
+  @media (min-width: 1024px) {
+    :global(html) { scroll-snap-type: y proximity; }
+  }
+
+  @media (max-width: 1023px) {
+    .topbar { display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; height: 52px; padding: 0 20px; background: rgb(11 11 13 / .92); border-bottom: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+    .wrap { display: block; padding: 0 20px; }
+    .side { position: static; height: auto; padding: 36px 0 8px; }
+    .photo { width: 88px; height: 88px; }
+    .name { font-size: 26px; margin-top: 20px; }
+    .toc { display: none; }
+    .side-foot { margin-top: 24px; }
+    .socials { flex-wrap: wrap; gap: 8px 20px; }
+    .verse { margin: 28px 0 0; }
+    .hint { display: none; }
+    .screen { min-height: 0; padding: 56px 0 0; }
+    section { scroll-margin-top: 64px; }
+    .exp > li { grid-template-columns: 1fr; gap: 6px; }
+    .friends li { grid-template-columns: 1fr; gap: 2px; padding: 12px 0; }
+    .rows div { grid-template-columns: 84px 1fr; }
+    .rows dd { flex-wrap: wrap; min-width: 0; overflow-wrap: anywhere; }
+    .footer { margin: 72px 0 24px; }
+  }
+</style>

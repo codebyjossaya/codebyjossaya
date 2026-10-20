@@ -1,0 +1,28 @@
+---
+import Base from "../layouts/Base.astro";
+---
+<Base title="404 · Jossaya Camille">
+  <main class="nf mono">
+    <p><span class="dim">$</span> cd <span data-path>/this-page</span></p>
+    <p class="err">cd: no such file or directory</p>
+    <h1>404<span class="cursor" aria-hidden="true"></span></h1>
+    <p class="msg">you wandered off. try <a href="/?k">⌘K</a>, or <a href="/">cd ~</a> to go home.</p>
+  </main>
+  <script>
+    const p = document.querySelector("[data-path]");
+    if (p && location.pathname !== "/404" && location.pathname !== "/404.html") p.textContent = location.pathname;
+    addEventListener("keydown", (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); location.href = "/?k"; }
+    });
+  </script>
+</Base>
+
+<style>
+  .nf { max-width: 640px; margin: 0 auto; padding: 22vh 24px 48px; font-size: 14px; color: var(--muted); }
+  .nf p { margin: 0 0 6px; }
+  .dim { color: var(--dim); }
+  .err { color: #ff6b6b; }
+  h1 { margin: 40px 0 24px; font-size: 96px; line-height: 1; font-weight: 700; color: var(--text); }
+  .msg a { color: var(--accent); }
+  .msg a:hover { opacity: .8; }
+</style>
