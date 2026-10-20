@@ -61,7 +61,7 @@ Mobile: sticky top bar (`~/jossaya` + `menu ⌘` button), header (photo, name, c
 
 (The LinkedIn "always down to connect…" line was intentionally dropped.) Stack tags as plain mono text, no pills: python, pytorch, opencv, typescript, react, postgres, c/c++, vhdl.
 
-**contact** — rows with hairline dividers, label column + value: email `jossayacamille@gmail.com` (plain text, with copy button), github.com/codebyjossaya, linkedin.com/in/jossayacamille, devpost (URL to confirm with owner), resume.pdf (download). `jcamille.dev/resume` redirects (302, via `public/_redirects`) to the PDF so it opens in the browser.
+**contact** — rows with hairline dividers, label column + value: email `jossayacamille@gmail.com` (plain text, with copy button), github.com/codebyjossaya, linkedin.com/in/jossayacamille, devpost (https://devpost.com/jossaya), resume.pdf (download). `jcamille.dev/resume` redirects (302, via `public/_redirects`) to the PDF so it opens in the browser.
 
 **experience** — no cards; rows with bottom divider, date column left (mono), role `@ org` (org accent + ↗ on hover), one short summary, `#tags`. From resume (`~/Downloads/main.tex`):
 1. Sep 2026 — now · Software Engineer Intern @ AD Vantage — coach search: UI, Postgres, REST.
@@ -92,9 +92,9 @@ Mobile: sticky top bar (`~/jossaya` + `menu ⌘` button), header (photo, name, c
 | Alex Castronovo | https://alexcastronovo.com | programmer, neuroscience researcher, satellite subsystem lead |
 | Eoghan McIvor | https://eoghan.codes | full stack engineer into robotics and embedded systems software |
 
-Below the friends list: a **photo slideshow** of 8 group photos (rounded 6px, full column width, `1 / 8` counter badge, dim mono caption under the image, same ← dots → nav and 6s auto-advance as the projects slideshow). Order: FIU arch sculpture at night; prom selfie; research symposium; FAU graduation; restaurant selfie; HiPerGator server room; marsh boardwalk; Salt Company Gainesville wall. Only the symposium photo has a caption so far: "April 2025 - Research presentation at FAU Wilkes Honors College Symposium" — owner will write the rest (do not invent captions). Photos were shared in chat, not yet in the repo; ask the owner for the files.
+Below the friends list: **one** group photo — a restaurant-table selfie with friends (owner has their permission). **No caption.** Rounded 6px, full column width. No slideshow. All site images are re-encoded to WebP with EXIF/GPS stripped.
 
-Dashboard friends screen: "upload photos" button, thumbnail strip (drag to reorder, + add), and a selected-photo editor with caption, alt text, replace, adjust crop, remove. Project slides also get an optional caption + alt text field. Everything with an image must be captionable and replaceable by the owner.
+Dashboard friends screen: a single "group photo" field (replace, adjust crop, alt text). No captions on any photos.
 
 **writing** — hidden (section, nav, menus) until at least one post is published.
 
@@ -127,5 +127,4 @@ Goal: "everything on the site as editable as possible." Screens (see Figma Dashb
 ## Open items
 
 - SignSpeak and Marston images; confirm the "more" projects list.
-- Devpost URL.
 - Writing post titles in Figma are placeholders.
