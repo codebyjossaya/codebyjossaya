@@ -16,7 +16,7 @@
     "featured": true
   },
   {
-    "title": "Monocular gait analysis",
+    "title": "Monocular 3D Human Pose Estimation for Gait Analysis",
     "year": "2024",
     "context": "FAU BSIA Lab",
     "description": "Gait analysis from 3D human pose estimated with a single camera.",

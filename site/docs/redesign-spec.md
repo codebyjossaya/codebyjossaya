@@ -72,7 +72,7 @@ Mobile: sticky top bar (`~/jossaya` + `menu ⌘` button), header (photo, name, c
 **projects** — ONE scroll-snap screen containing a slideshow. One image per project. Slide = large image (rounded 6px, `05` counter badge top-right) + title ↗ + year + context line (accent mono) + one-line description + `#tags`.
 - Nav below slide: `←` button, dots, `→` button. **No project titles in the nav.** Dots: featured group, small gap, "more" group. Active dot is a wider pill that fills with purple as a timer.
 - Auto-advance every 6s, pause on hover, loop. Click dot/arrow jumps and resets timer. Crossfade transition. Reduced motion: crossfade stays, auto-advance paused. Mobile: swipe.
-- Featured (order): SignSpeak (Hacklytics 2026; PyTorch CNN on HiPerGator, TF.js, Nuxt, Gemini — **needs screenshot**), Monocular gait analysis (FAU BSIA, `3DHPE_GaitAnalysis` repo; image maybe `public/hpe/`), Solar Cybersedan (FAU AEV club; tags **#javascript** — NOT C++; image `public/alset/alset-1.jpg`; links: FAU article + `YamanDevelopment/AEV-Software`).
+- Featured (order): SignSpeak (Hacklytics 2026; PyTorch CNN on HiPerGator, TF.js, Nuxt, Gemini — **needs screenshot**), Monocular 3D Human Pose Estimation for Gait Analysis (FAU BSIA, `3DHPE_GaitAnalysis` repo; image maybe `public/hpe/`), Solar Cybersedan (FAU AEV club; tags **#javascript** — NOT C++; image `public/alset/alset-1.jpg`; links: FAU article + `YamanDevelopment/AEV-Software`).
 - More (placeholders, confirm with owner): VaultTune, Marston. Owner has more projects "in the works".
 - Lazy-load non-current slide images; AVIF/WebP.
 
