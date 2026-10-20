@@ -70,8 +70,10 @@ const place = (n: number, dir: 1 | -1 | 0) => {
   requestAnimationFrame(() => reveal(sc));
 };
 
-let lockUntil = 0, lastWheel = 0, acc = 0;
-const TURN_MS = 760;
+// a short lock so one notch can't skip two screens; trackpad momentum from the
+// same swipe is ignored, but a new swipe can turn again right away
+let lockUntil = 0, lastWheel = 0, acc = 0, lastDy = 0, coasting = false;
+const TURN_MS = 220;
 const turn = (n: number) => {
   n = Math.max(0, Math.min(screens.length - 1, n));
   if (n === cur) return false;
@@ -80,6 +82,7 @@ const turn = (n: number) => {
   place(n, dir);
   lockUntil = performance.now() + TURN_MS;
   acc = 0;
+  coasting = true;
   closeMenu();
   syncActive();
   return true;
@@ -95,13 +98,17 @@ const onWheel = (e: WheelEvent) => {
   const now = performance.now();
   const gap = now - lastWheel;
   lastWheel = now;
-  // trackpad momentum keeps firing after a turn; wait for it to die down
-  if (now < lockUntil || (gap < 120 && now < lockUntil + 400)) return;
+  const raw = Math.abs(e.deltaY);
+  // momentum decays; a fresh swipe (pause, or a sudden bigger delta) ends coasting
+  // (mouse-wheel notches repeat the same large delta, so they never coast)
+  if (coasting && (gap > 90 || raw > lastDy * 1.4 + 4 || (raw >= 50 && Math.abs(raw - lastDy) < 1))) coasting = false;
+  lastDy = raw;
+  if (now < lockUntil || coasting) return;
   const sc = screens[cur];
   const dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
   if (canScroll(sc, dy)) { sc.scrollTop += dy; acc = 0; return; }
   acc += dy;
-  if (Math.abs(acc) > 60) turn(cur + Math.sign(acc));
+  if (Math.abs(acc) > 40) turn(cur + Math.sign(acc));
 };
 
 const enableWheel = () => {
@@ -154,6 +161,7 @@ const typing = (t: EventTarget | null) =>
 // keys: move within a tall screen first, then turn to the next one
 const jump = (dir: 1 | -1) => {
   if (performance.now() < lockUntil) return;
+  coasting = false;
   const sc = screens[cur];
   if (canScroll(sc, dir)) sc.scrollBy({ top: dir * sc.clientHeight * 0.8, behavior: "smooth" });
   else turn(cur + dir);
