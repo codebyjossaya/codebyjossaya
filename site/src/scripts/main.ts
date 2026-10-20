@@ -72,7 +72,7 @@ const place = (n: number, dir: 1 | -1 | 0) => {
 
 // a short lock so one notch can't skip two screens; trackpad momentum from the
 // same swipe is ignored, but a new swipe can turn again right away
-let lockUntil = 0, lastWheel = 0, acc = 0, lastDy = 0, coasting = false;
+let lockUntil = 0, lastWheel = 0, acc = 0, lastDy = 0, coasting = false, minDy = Infinity, maxDy = 0;
 const TURN_MS = 450;
 const turn = (n: number) => {
   n = Math.max(0, Math.min(screens.length - 1, n));
@@ -83,6 +83,8 @@ const turn = (n: number) => {
   lockUntil = performance.now() + TURN_MS;
   acc = 0;
   coasting = true;
+  minDy = Infinity;
+  maxDy = 0;
   closeMenu();
   syncActive();
   return true;
@@ -99,16 +101,24 @@ const onWheel = (e: WheelEvent) => {
   const gap = now - lastWheel;
   lastWheel = now;
   const raw = Math.abs(e.deltaY);
-  // a new gesture only counts after a real pause; momentum events arrive ~16ms apart
-  // (mouse-wheel notches repeat the same large delta, so they never coast)
-  if (coasting && (gap > 140 || (raw >= 50 && Math.abs(raw - lastDy) < 1 && gap > 120))) coasting = false;
+  // Momentum after a swipe keeps shrinking. A new swipe shows up as a pause,
+  // or as deltas climbing again after the momentum has died down.
+  if (coasting) {
+    maxDy = Math.max(maxDy, raw);
+    minDy = Math.min(minDy, raw);
+    // only call it a new swipe once the old one has visibly died down
+    const decayed = minDy < maxDy * 0.35;
+    const freshSwipe = gap > 140 || (decayed && raw >= 8 && raw > minDy * 2 + 6);
+    const notch = raw >= 50 && Math.abs(raw - lastDy) < 1 && gap > 120;
+    if (freshSwipe || notch) coasting = false;
+  }
   lastDy = raw;
   if (now < lockUntil || coasting) return;
   const sc = screens[cur];
   const dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
   if (canScroll(sc, dy)) { sc.scrollTop += dy; acc = 0; return; }
   acc += dy;
-  if (Math.abs(acc) > 70) turn(cur + Math.sign(acc));
+  if (Math.abs(acc) > 50) turn(cur + Math.sign(acc));
 };
 
 const enableWheel = () => {
