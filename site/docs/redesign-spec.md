@@ -78,7 +78,7 @@ Mobile: sticky top bar (`~/jossaya` + `menu ⌘` button), header (photo, name, c
 
 **other stuff i'm up to** (section label `other stuff i'm up to`) — same row layout as experience but lighter: no dividers, no tags, no ↗, role in softer text (`#c9c9cf`), org muted, one short line. Placed directly below projects. One-liners confirmed by owner. Rows ordered oldest start date first.
 1. Aug 2025 — now · Tech Coordinator @ DSI — Work with the eboard and other coordinators to maintain DSI's online presence.
-2. Aug 2026 — now · Student Leader @ The Salt Company — Co-lead a weekly connection group as part of our weekly ministry.
+2. Aug 2026 — now · Student Leader @ Salt Company GNV — Co-lead a weekly connection group as part of our weekly ministry.
 3. Sep 2026 — now · Firmware Team @ Florida Rocket Lab — Write firmware for the lab's rocket avionics.
 4. Oct 2026 — now · Stardust ↗ (https://github.com/jeebuscrossaint/stardust, live: stardust.jcamille.dev) — ML-accelerated asteroid precovery tool that refines asteroid orbits with past sightings and displays them in an asteroid tracker UI
 5. Oct 2026 — now · Reconix ↗ (https://makaip.com/reconix) — Human-in-the-loop AI-powered pen testing browser.
