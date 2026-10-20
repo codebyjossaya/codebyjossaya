@@ -83,6 +83,8 @@ Mobile: sticky top bar (`~/jossaya` + `menu ⌘` button), header (photo, name, c
 | Makai Pindell | https://makaip.com | ML enthusiast and software developer |
 | Alex Castronovo | https://alexcastronovo.com | programmer, neuroscience researcher, satellite subsystem lead |
 
+Below the friends list: a group photo (rounded 6px, full column width, 4:3) with a dim mono caption: "April 2025 - Research presentation at FAU Wilkes Honors College Symposium". Photo was shared in chat by the owner (not yet in the repo; ask for the file). Editable in the dashboard friends screen.
+
 **writing** — hidden (section, nav, menus) until at least one post is published.
 
 **footer** — "made with ❤️ by Jossaya Camille" + "view source on github" + last deployed date.
