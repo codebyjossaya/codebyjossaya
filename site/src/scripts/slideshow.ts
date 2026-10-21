@@ -1,5 +1,8 @@
-// Auto-advance is driven by the active dot's fill animation: when it ends,
-// go to the next slide. Hover (or being off screen) pauses the animation.
+// Slides crossfade on a 6s timer. The dots are plain: grey for the others,
+// white for the one in view - no progress animation. Hover (or being off
+// screen) pauses the timer, and reduced motion switches it off entirely.
+const REDUCED = matchMedia("(prefers-reduced-motion: reduce)");
+const DWELL = 6000;
 
 
 function load(slide: Element | undefined) {
@@ -23,23 +26,24 @@ export function initSlideshows() {
         s.toggleAttribute("inert", k !== i);
       });
       dots.forEach((d) => d.removeAttribute("aria-current"));
-      void root.offsetWidth; // restart the fill animation
       dots[i]?.setAttribute("aria-current", "true");
       load(slides[i]);
       load(slides[(i + 1) % slides.length]);
+      restart();
     };
 
-    dots.forEach((d) => {
-      d.addEventListener("click", () => go(Number(d.dataset.dot)));
-      d.querySelector(".fill")?.addEventListener("animationend", () => {
-        go(i + 1);
-      });
-    });
+    dots.forEach((d) => d.addEventListener("click", () => go(Number(d.dataset.dot))));
     root.querySelector("[data-prev]")?.addEventListener("click", () => go(i - 1));
     root.querySelector("[data-next]")?.addEventListener("click", () => go(i + 1));
 
-    let hovering = false, visible = false;
-    const sync = () => root.classList.toggle("paused", hovering || !visible);
+    let hovering = false, visible = false, timer: number | undefined;
+    const paused = () => hovering || !visible || REDUCED.matches;
+    function restart() {
+      clearTimeout(timer);
+      timer = undefined;
+      if (!paused() && slides.length > 1) timer = window.setTimeout(() => go(i + 1), DWELL);
+    }
+    const sync = () => restart();
     root.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") { hovering = true; sync(); } });
     root.addEventListener("pointerleave", () => { hovering = false; sync(); });
     // in screen mode an off-screen screen is only translated + hidden, which an
@@ -59,7 +63,6 @@ export function initSlideshows() {
       if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) go(dx < 0 ? i + 1 : i - 1);
     });
 
-    sync();
     go(0);
   });
 }

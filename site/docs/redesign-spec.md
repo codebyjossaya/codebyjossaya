@@ -44,24 +44,24 @@ Left (sticky):
 4. No short bio line under the name (owner rejected it).
 5. Nav: `about`, `experience`, `projects`, `other stuff`, `friends` (+ `writing` only when a post exists). **No section numbers anywhere** (owner: "we can count"). Active = brighter text plus a 1px, 40px line to its left (only the active item has a line). On section change the old label fades out and its line shrinks to 0 while the new label fades in and its line grows to 40px (250ms ease-out); jumps (e.g. about → friends) crossfade directly, labels in between never light up.
 6. (No screen counter.)
-7. Socials: github, linkedin, devpost, `resume.pdf ↓` (accent).
+7. Contact lives here, not in a section of its own: a row of monochrome brand icons (github, linkedin, devpost — simple-icons, except LinkedIn's mark which the package dropped, so it is inlined in `index.astro`), grey, turning purple on hover. Below them a hairline divider, then the email `jossayacamille@gmail.com` (click to copy) and `resume.pdf ↓` (accent).
 8. Above the ⌘K hint (mobile: bottom of header): Psalm 150:6, **ESV**, full verse in muted italic Inter 13px — "Let everything that has breath praise the LORD! Praise the LORD!" — with `psalm 150:6` in dim Plex Mono 11px below. Editable in the dashboard profile screen.
 9. Hint chip: `⌘K  jump anywhere, right-click for more`.
 
-Right (sections, in this order): about (prose + skills + contact rows), experience, projects, other stuff i'm up to, friends, (writing — hidden until first post), footer.
+Right (sections, in this order): about (prose + skills), experience, projects, other stuff i'm up to, friends, (writing — hidden until first post), footer.
 
 Mobile: sticky top bar (`~/jossaya` + `menu ⌘` button), header (photo, name, currently, socials), then sections stacked. Experience rows stack date above content.
 
 ### Sections content
 
-**about** — one section; the former `contact` section is merged into it (no separate label, no nav entry).
+**about** — prose + skills only. There is **no contact section**: the links, email and resume live in the left column (see Left 7), and in ⌘K / the right-click menu.
 > I'm Jossaya, a second-year computer engineering student at UF. For the last few years, I have been exploring my passion for applied machine learning and computer vision through research experience, coursework, and personal projects.
 >
 > I'm also drawn to software engineering, full-stack web development, and embedded systems.
 
-(The LinkedIn "always down to connect…" line was intentionally dropped.) Skills: a grid of monochrome brand icons (simple-icons, rendered at build time, no runtime JS) with the name in small mono underneath, like the old site's skills grid; grey, brightening on hover. List: Python, TypeScript, JavaScript, React, Node.js, Electron, C, C++, PyTorch, OpenCV, Postgres, Firebase, Docker, Cloudflare, Git, GitHub, Linux, EndeavourOS, Neovim (VS Code dropped: no icon in simple-icons).
+(The LinkedIn "always down to connect…" line was intentionally dropped.) Skills: a grid of monochrome brand icons (simple-icons, rendered at build time, no runtime JS) with the name in small mono underneath, like the old site's skills grid; grey, turning purple (accent) on hover. List: Python, TypeScript, JavaScript, React, Node.js, Electron, C, C++, PyTorch, OpenCV, Postgres, Firebase, Docker, Cloudflare, Git, GitHub, Linux, EndeavourOS, Neovim (VS Code dropped: no icon in simple-icons).
 
-Contact rows, at the tail of the about section (no heading of their own) — rows with hairline dividers, label column + value: email `jossayacamille@gmail.com` (plain text, with copy button), github.com/codebyjossaya, linkedin.com/in/jossayacamille, devpost (https://devpost.com/jossaya), resume.pdf (download). `jcamille.dev/resume` redirects (302, via `public/_redirects`) to the PDF so it opens in the browser.
+**contact** — no section. Links: github.com/codebyjossaya, linkedin.com/in/jossayacamille, devpost.com/jossaya; email `jossayacamille@gmail.com`; resume.pdf (download). `jcamille.dev/resume` redirects (302, via `public/_redirects`) to the PDF so it opens in the browser.
 
 **experience** — no cards; rows with bottom divider, date column left (mono), role `@ org` (org accent + ↗ on hover), one short summary, `#tags`. From resume (`~/Downloads/main.tex`):
 1. Sep 2026 — now · Software Engineer Intern @ AD Vantage — coach search: UI, Postgres, REST.
@@ -70,8 +70,8 @@ Contact rows, at the tail of the about section (no heading of their own) — row
 4. May 2024 — May 2025 · Software Research Assistant @ FAU BSIA Lab (PI Behnaz Ghoraani) — monocular 3D pose gait analysis, research grant.
 
 **projects** — ONE scroll-snap screen containing a slideshow. One image per project. Slide = large image (rounded 6px, `05` counter badge top-right) + title ↗ + year + context line (accent mono) + one-line description + `#tags`.
-- Nav below slide: `←` button, dots, `→` button. **No project titles in the nav.** Dots: featured group, small gap, "more" group. Active dot is a wider pill that fills with purple as a timer.
-- Auto-advance every 6s, pause on hover, loop. Click dot/arrow jumps and resets timer. Crossfade transition. Reduced motion: crossfade stays, auto-advance paused. Mobile: swipe.
+- Nav below the slide, centred: a bigger `←` button (36px, 1px border, 20px glyph), dots, the same `→`. **No project titles in the nav.** Dots are plain 8px circles — dim grey for the rest, white for the one in view, no timer fill or pill (owner: the fill animation wasn't intuitive). Featured group, small gap, "more" group.
+- Auto-advance every 6s on a JS timer, pause on hover or when the screen isn't in view, loop. Click dot/arrow jumps and resets the timer. Crossfade transition. Reduced motion: crossfade stays, auto-advance paused. Mobile: swipe.
 - Featured (order): SignSpeak (Hacklytics 2026; PyTorch CNN on HiPerGator, TF.js, Nuxt, Gemini — **needs screenshot**), Monocular 3D Human Pose Estimation for Gait Analysis (FAU BSIA, `3DHPE_GaitAnalysis` repo; image maybe `public/hpe/`), Solar Cybersedan (FAU AEV club; tags **#javascript** — NOT C++; image `public/alset/alset-1.jpg`; links: FAU article + `YamanDevelopment/AEV-Software`).
 - More (placeholders, confirm with owner): VaultTune, Marston. Owner has more projects "in the works".
 - Lazy-load non-current slide images; AVIF/WebP.
@@ -102,7 +102,7 @@ Dashboard friends screen: a single "group photo" field (replace, adjust crop, al
 
 ## Interaction
 
-- **Screen transitions (all devices)**: the page itself doesn't scroll. Sections are grouped into 5 screens: (1) about (prose, skills, contact rows), (2) experience, (3) projects slideshow, (4) other stuff i'm up to, (5) friends + photo + footer. A wheel notch / trackpad swipe / `j` `k` / arrows / PgUp/PgDn slides the current screen up and out while the next rises in from below — flat vertical motion like a painted wheel seen face-on (no tilt, no 3D depth), ~0.62s ease-out; input re-enables ~0.45s after a turn starts, one screen per gesture, trackpad momentum from the same swipe is ignored but a new swipe turns immediately. Each screen's content animates in every time it arrives. Tall screens scroll inside first, then turn. Phones/tablets use the same screen transitions: the header (photo, name, links, verse) is the first screen, and a vertical swipe past the edge of the current screen turns it (tall screens scroll inside first).
+- **Screen transitions (all devices)**: the page itself doesn't scroll. Sections are grouped into 5 screens: (1) about (prose, skills), (2) experience, (3) projects slideshow, (4) other stuff i'm up to, (5) friends + photo + footer. A wheel notch / trackpad swipe / `j` `k` / arrows / PgUp/PgDn slides the current screen up and out while the next rises in from below — flat vertical motion like a painted wheel seen face-on (no tilt, no 3D depth), ~0.62s ease-out; input re-enables ~0.45s after a turn starts, one screen per gesture, trackpad momentum from the same swipe is ignored but a new swipe turns immediately. Each screen's content animates in every time it arrives. Tall screens scroll inside first, then turn. Phones/tablets use the same screen transitions: the header (photo, name, links, verse) is the first screen, and a vertical swipe past the edge of the current screen turns it (tall screens scroll inside first).
 - **Reduced motion**: the owner's machine has it on and wants animations anyway, so the grid warp, screen transitions, fades and slideshow autoplay are NOT disabled by `prefers-reduced-motion`.
 - **⌘K palette**: centered panel, `>` prompt, results with verb column (go to / open / copy / download / visit) and shortcut hints; includes "visit a random friend's site" and a hidden `sudo` easter egg ("nice try.").
 - **Right-click menu**: custom context menu (section names, copy email, view source, open ⌘K); active section highlighted. Shift+right-click opens the native menu. Long-press on mobile.
@@ -112,7 +112,7 @@ Dashboard friends screen: a single "group photo" field (replace, adjust crop, al
 ## Dashboard (`/admin`)
 
 Goal: "everything on the site as editable as possible." Screens (see Figma Dashboard page):
-- content: posts (list), post editor (markdown + live preview, slug/tags/date/cover, autosave, preview/schedule/publish), profile (photo + crop, name, tab title, currently line, typing toggle, about markdown, stack tags), contact (links + per-link visibility in sidebar/about/⌘K/right-click, email copy toggle; stays its own dashboard screen, editing the contact rows that now live inside about), experience (drag reorder, role/company/dates/link/summary/tags/visible), projects (featured vs more groups, drag between, slide number, image upload + desktop/mobile crop focus, featured toggle, auto-advance toggle), friends (name/site/one-liner, fetch description from site, weekly broken-link check, intro line), resume (upload, filename, link label, version history/restore, optional build from main.tex).
+- content: posts (list), post editor (markdown + live preview, slug/tags/date/cover, autosave, preview/schedule/publish), profile (photo + crop, name, tab title, currently line, typing toggle, about markdown, stack tags), contact (links + per-link visibility in sidebar/⌘K/right-click, email copy toggle; edits the icon row, email and resume link in the left column), experience (drag reorder, role/company/dates/link/summary/tags/visible), projects (featured vs more groups, drag between, slide number, image upload + desktop/mobile crop focus, featured toggle, auto-advance toggle), friends (name/site/one-liner, fetch description from site, weekly broken-link check, intro line), resume (upload, filename, link label, version history/restore, optional build from main.tex).
 - site: sections (order, visibility, labels, auto-hide when empty, "starts a new screen" for scroll snap, layout/sidebar width), appearance (accent presets + custom, background, fonts, grid toggle/opacity, cursor glow, blinking cursor, fade-ins), commands & menus (table of commands, shortcuts, ⌘K/right-click visibility), seo & sharing (title, description, OG image auto/upload, favicon, Cloudflare Web Analytics), footer & 404 text, deploys (history, status, rollback).
 - Layout itself is not editable beyond order/visibility/sidebar width (keeps the design from drifting).
 

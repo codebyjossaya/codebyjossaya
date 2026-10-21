@@ -18,17 +18,20 @@
     {
       "label": "github",
       "display": "github.com/codebyjossaya",
-      "url": "https://github.com/codebyjossaya"
+      "url": "https://github.com/codebyjossaya",
+      "icon": "siGithub"
     },
     {
       "label": "linkedin",
       "display": "linkedin.com/in/jossayacamille",
-      "url": "https://www.linkedin.com/in/jossayacamille"
+      "url": "https://www.linkedin.com/in/jossayacamille",
+      "icon": "linkedin"
     },
     {
       "label": "devpost",
       "display": "devpost.com/jossaya",
-      "url": "https://devpost.com/jossaya"
+      "url": "https://devpost.com/jossaya",
+      "icon": "siDevpost"
     }
   ],
   "resume": "/Jossaya_Camille_Resume.pdf",
