@@ -63,9 +63,6 @@ const social = profile.links.map((l) => ({ ...l, path: l.icon === "linkedin" ? l
             </a></li>
           ))}
         </ul>
-        <div class="reach mono">
-          <a class="accent" href={profile.resume} download>resume.pdf ↓</a>
-        </div>
         <figure class="verse">
           <blockquote>{profile.verse.text}</blockquote>
           <figcaption class="mono">{profile.verse.ref}</figcaption>
@@ -79,8 +76,7 @@ const social = profile.links.map((l) => ({ ...l, path: l.icon === "linkedin" ? l
         <section id="about" data-section>
           <h2 class="label mono fade">about</h2>
           {profile.about.map((p, i) => <p class="fade" style={`--i:${i + 1}`}>{p}</p>)}
-          <p class="email mono fade" style="--i:3"><button data-copy={profile.email} title="copy email">{profile.email}</button></p>
-          <ul class="skills fade" style="--i:4" aria-label="skills">
+          <ul class="skills fade" style="--i:3" aria-label="skills">
             {skills.map((k) => (
               <li>
                 {k.path && <svg viewBox="0 0 24 24" aria-hidden="true"><path d={k.path} /></svg>}
@@ -88,6 +84,10 @@ const social = profile.links.map((l) => ({ ...l, path: l.icon === "linkedin" ? l
               </li>
             ))}
           </ul>
+          <p class="reach mono fade" style="--i:4">
+            <button class="mail" data-copy={profile.email} title="copy email">{profile.email}</button>
+            <a class="accent" href={profile.resume} download>resume.pdf ↓</a>
+          </p>
         </section>
       </div>
 
@@ -215,13 +215,11 @@ const social = profile.links.map((l) => ({ ...l, path: l.icon === "linkedin" ? l
   .toc a.active { color: var(--text); }
   .toc a.active .bar { width: 40px; margin-right: 14px; }
   .side-foot { margin-top: auto; }
-  .socials { display: flex; gap: 18px; color: var(--muted); }
+  .socials { display: flex; gap: 22px; color: var(--muted); }
   .socials a { display: block; color: inherit; transition: color .2s; }
   .socials a:hover { color: var(--accent); }
-  .socials svg { width: 20px; height: 20px; fill: currentColor; display: block; }
-  .reach { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); display: flex; flex-direction: column; align-items: flex-start; gap: 6px; font-size: 13px; }
+  .socials svg { width: 26px; height: 26px; fill: currentColor; display: block; }
   .accent { color: var(--accent); }
-  .reach a.accent:hover { opacity: .8; }
   .verse { margin: 32px 0 20px; max-width: 340px; }
   .verse blockquote { margin: 0; font-style: italic; font-size: 13px; line-height: 1.55; color: var(--muted); }
   .verse figcaption { margin-top: 6px; font-size: 11px; color: var(--dim); }
@@ -234,9 +232,10 @@ const social = profile.links.map((l) => ({ ...l, path: l.icon === "linkedin" ? l
   section + section { margin-top: 64px; }
   .label { margin: 0 0 20px; font-size: 13px; font-weight: 400; color: var(--accent); }
   section p { margin: 0 0 16px; color: #bdbdc5; }
-  .email { margin: 0 !important; font-size: 13px; }
-  .email button { color: var(--muted); transition: color .2s; }
-  .email button:hover { color: var(--accent); }
+  .reach { margin: 28px 0 0 !important; padding-top: 18px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: 13px; }
+  .reach .mail { color: var(--muted); transition: color .2s; }
+  .reach .mail:hover { color: var(--accent); }
+  .reach a.accent:hover { opacity: .8; }
   .skills { list-style: none; margin: 28px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 18px 8px; }
   .skills li { display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--muted); transition: color .2s; }
   .skills li:hover { color: var(--accent); }
@@ -332,7 +331,6 @@ const social = profile.links.map((l) => ({ ...l, path: l.icon === "linkedin" ? l
     .side { align-items: center; text-align: center; }
     .side-foot { display: flex; flex-direction: column; align-items: center; }
     .socials { justify-content: center; }
-    .reach { align-items: center; }
     .verse { margin-left: auto; margin-right: auto; }
     /* keep sections to a readable column instead of stretching edge to edge */
     .screen > :global(*) { max-width: 640px; margin-left: auto; margin-right: auto; }
