@@ -228,7 +228,7 @@ const social = profile.links.map((l) => ({ ...l, path: l.icon === "linkedin" ? l
   .currently { margin: 0; color: var(--muted); font-size: 15px; }
   .toc { margin-top: 56px; font-size: 13px; }
   .toc ul, .socials, .friends, .exp, .posts { list-style: none; margin: 0; padding: 0; }
-  .toc a { display: flex; align-items: center; height: 30px; color: var(--dim); transition: color .25s ease-out; }
+  .toc a { display: inline-flex; width: fit-content; align-items: center; height: 30px; color: var(--dim); transition: color .25s ease-out; }
   .toc a:hover { color: var(--muted); }
   .toc .bar { display: block; height: 1px; width: 0; background: var(--text); margin-right: 0; transition: width .25s ease-out, margin-right .25s ease-out; }
   .toc a.active { color: var(--text); }
