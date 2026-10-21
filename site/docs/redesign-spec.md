@@ -48,13 +48,13 @@ Left (sticky):
 8. Above the ⌘K hint (mobile: bottom of header): Psalm 150:6, **ESV**, full verse in muted italic Inter 13px — "Let everything that has breath praise the LORD! Praise the LORD!" — with `psalm 150:6` in dim Plex Mono 11px below. Editable in the dashboard profile screen.
 9. Hint chip: `⌘K  jump anywhere, right-click for more`.
 
-Right (sections, in this order): about (prose + skills), experience, projects, other stuff i'm up to, friends, (writing — hidden until first post), footer.
+Right (sections, in this order): about (prose + email + skills), experience, projects, other stuff i'm up to, friends, (writing — hidden until first post), footer.
 
 Mobile: sticky top bar (`~/jossaya` + `menu ⌘` button), header (photo, name, currently, socials), then sections stacked. Experience rows stack date above content.
 
 ### Sections content
 
-**about** — prose + skills only. There is **no contact section**: the links, email and resume live in the left column (see Left 7), and in ⌘K / the right-click menu.
+**about** — prose, then the email `jossayacamille@gmail.com` on its own line (muted mono 13px, click to copy, purple on hover), then the skills grid. There is **no contact section**: the links and resume live in the left column (see Left 7), and in ⌘K / the right-click menu.
 > I'm Jossaya, a second-year computer engineering student at UF. For the last few years, I have been exploring my passion for applied machine learning and computer vision through research experience, coursework, and personal projects.
 >
 > I'm also drawn to software engineering, full-stack web development, and embedded systems.
@@ -102,7 +102,7 @@ Dashboard friends screen: a single "group photo" field (replace, adjust crop, al
 
 ## Interaction
 
-- **Screen transitions (all devices)**: the page itself doesn't scroll. Sections are grouped into 5 screens: (1) about (prose, skills), (2) experience, (3) projects slideshow, (4) other stuff i'm up to, (5) friends + photo + footer. A wheel notch / trackpad swipe / `j` `k` / arrows / PgUp/PgDn slides the current screen up and out while the next rises in from below — flat vertical motion like a painted wheel seen face-on (no tilt, no 3D depth), ~0.62s ease-out; input re-enables ~0.45s after a turn starts, one screen per gesture, trackpad momentum from the same swipe is ignored but a new swipe turns immediately. Each screen's content animates in every time it arrives. Tall screens scroll inside first, then turn. Phones/tablets use the same screen transitions: the header (photo, name, links, verse) is the first screen, and a vertical swipe past the edge of the current screen turns it (tall screens scroll inside first).
+- **Screen transitions (all devices)**: the page itself doesn't scroll. Sections are grouped into 5 screens: (1) about (prose, email, skills), (2) experience, (3) projects slideshow, (4) other stuff i'm up to, (5) friends + photo + footer. A wheel notch / trackpad swipe / `j` `k` / arrows / PgUp/PgDn slides the current screen up and out while the next rises in from below — flat vertical motion like a painted wheel seen face-on (no tilt, no 3D depth), ~0.62s ease-out; input re-enables ~0.45s after a turn starts, one screen per gesture, trackpad momentum from the same swipe is ignored but a new swipe turns immediately. Each screen's content animates in every time it arrives. Tall screens scroll inside first, then turn. Phones/tablets use the same screen transitions: the header (photo, name, links, verse) is the first screen, and a vertical swipe past the edge of the current screen turns it (tall screens scroll inside first).
 - **Reduced motion**: the owner's machine has it on and wants animations anyway, so the grid warp, screen transitions, fades and slideshow autoplay are NOT disabled by `prefers-reduced-motion`.
 - **⌘K palette**: centered panel, `>` prompt, results with verb column (go to / open / copy / download / visit) and shortcut hints; includes "visit a random friend's site" and a hidden `sudo` easter egg ("nice try.").
 - **Right-click menu**: custom context menu (section names, copy email, view source, open ⌘K); active section highlighted. Shift+right-click opens the native menu. Long-press on mobile.

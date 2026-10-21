@@ -80,7 +80,8 @@ const social = profile.links.map((l) => ({ ...l, path: l.icon === "linkedin" ? l
         <section id="about" data-section>
           <h2 class="label mono fade">about</h2>
           {profile.about.map((p, i) => <p class="fade" style={`--i:${i + 1}`}>{p}</p>)}
-          <ul class="skills fade" style="--i:3" aria-label="skills">
+          <p class="email mono fade" style="--i:3"><button data-copy={profile.email} title="copy email">{profile.email}</button></p>
+          <ul class="skills fade" style="--i:4" aria-label="skills">
             {skills.map((k) => (
               <li>
                 {k.path && <svg viewBox="0 0 24 24" aria-hidden="true"><path d={k.path} /></svg>}
@@ -236,6 +237,9 @@ const social = profile.links.map((l) => ({ ...l, path: l.icon === "linkedin" ? l
   section + section { margin-top: 64px; }
   .label { margin: 0 0 20px; font-size: 13px; font-weight: 400; color: var(--accent); }
   section p { margin: 0 0 16px; color: #bdbdc5; }
+  .email { margin: 0 !important; font-size: 13px; }
+  .email button { color: var(--muted); transition: color .2s; }
+  .email button:hover { color: var(--accent); }
   .skills { list-style: none; margin: 28px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 18px 8px; }
   .skills li { display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--muted); transition: color .2s; }
   .skills li:hover { color: var(--accent); }
