@@ -121,6 +121,7 @@ Goal: "everything on the site as editable as possible." Screens (see Figma Dashb
 - Current repo: React Router 7 on Cloudflare Workers (`wrangler.jsonc`, `workers/app.ts`, `app/routes/home.tsx`), Tailwind v4. Owner gave full discretion to change stack.
 - Recommended: **Astro** static output on Cloudflare Workers, small vanilla/TS islands for ⌘K, context menu, typing, grid glow, slideshow, scroll-snap sync. Deploys automatically from `main`; work goes through a PR.
 - Content as files in the repo (JSON/Markdown). Dashboard at `/admin` behind **Cloudflare Access** (owner's email only); publish = commit via GitHub API → auto-deploy. (Alternative considered: D1 database; rejected as more complex.)
+- Domains (2026-10-21): the production Worker is `website`. `jcamille.dev` reaches it through a zone route `jcamille.dev/*` plus an apex CNAME to `website.jossayacamille.workers.dev`; `jossaya.com` and `www.jossaya.com` are attached as Workers **Custom Domains** on the same script, so all three serve the same site. The custom domains live in Cloudflare state, not in `wrangler.jsonc` — adding a `routes` block risks reconciling away the jcamille.dev route on the next deploy.
 - Analytics: Cloudflare Web Analytics (cookieless).
 - OG image auto-generated from name + currently line.
 
