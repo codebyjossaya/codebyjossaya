@@ -10,8 +10,9 @@ const GLOW_ALPHA = 0.24;
 const STEP = 6; // sampling step for bent lines
 const ACCENT = [194, 122, 255]; // #c27aff
 const RIPPLE_MS = 900; // how long a click wave takes to cross the screen
-const RIPPLE_WARP = 18; // px of displacement at the crest
-const BAND = 90; // half-width of the crest, in px
+const RIPPLE_WARP = 15; // px of displacement at the trough and at the crest
+const BAND = 80; // half-width of one lobe, in px
+const LOBE = 1 / 0.4289; // normalises u*exp(-u^2) so its peak is 1
 const MAX_RIPPLES = 3;
 
 const canvas = document.getElementById("grid") as HTMLCanvasElement | null;
@@ -64,7 +65,9 @@ if (canvas && ctx) {
         const { r: cr, life } = crest(rp);
         const u = (er - cr) / BAND;
         if (u < -2.5 || u > 2.5) continue;
-        const d = RIPPLE_WARP * life * Math.exp(-u * u);
+        // one full wave: the leading edge (u > 0) pulls in, the trailing edge
+        // (u < 0) lifts out, so a point dips and then rises as the wave passes
+        const d = RIPPLE_WARP * life * LOBE * -u * Math.exp(-u * u);
         ox += (ex / er) * d; oy += (ey / er) * d;
       }
     }
@@ -113,9 +116,10 @@ if (canvas && ctx) {
     const [ar, ag, ab] = ACCENT;
     for (const rp of ripples) {
       const { r, life } = crest(rp);
-      const g = ctx.createRadialGradient(rp.x, rp.y, Math.max(0, r - BAND), rp.x, rp.y, r + BAND);
+      const g = ctx.createRadialGradient(rp.x, rp.y, Math.max(0, r - 1.6 * BAND), rp.x, rp.y, r + BAND);
       g.addColorStop(0, `rgba(${ar},${ag},${ab},0)`);
-      g.addColorStop(0.5, `rgba(${ar},${ag},${ab},${0.55 * life})`);
+      g.addColorStop(0.45, `rgba(${ar},${ag},${ab},${0.55 * life})`);
+      g.addColorStop(0.72, `rgba(${ar},${ag},${ab},${0.3 * life})`);
       g.addColorStop(1, `rgba(${ar},${ag},${ab},0)`);
       ctx.strokeStyle = g;
       linePaths(false);
