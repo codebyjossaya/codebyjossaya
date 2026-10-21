@@ -16,7 +16,6 @@ const published = posts.filter((p) => p.frontmatter?.published !== false);
 
 const sections = [
   { id: "about", label: "about" },
-  { id: "contact", label: "contact" },
   { id: "experience", label: "experience" },
   { id: "projects", label: "projects" },
   { id: "other", label: "other stuff" },
@@ -78,13 +77,7 @@ const social = [...profile.links];
               </li>
             ))}
           </ul>
-        </section>
-      </div>
-
-      <div class="screen" data-screen>
-        <section id="contact" data-section>
-          <h2 class="label mono fade">contact</h2>
-          <dl class="rows fade" style="--i:1">
+          <dl class="rows fade" style="--i:4">
             <div>
               <dt class="mono">email</dt>
               <dd><span>{profile.email}</span> <button class="copy mono" data-copy={profile.email}>copy</button></dd>
@@ -246,7 +239,7 @@ const social = [...profile.links];
   .link { color: var(--text); transition: color .2s; }
   .link:hover { color: var(--accent); }
 
-  .rows { margin: 0; }
+  .rows { margin: 36px 0 0; }
   .rows div { display: grid; grid-template-columns: 120px 1fr; padding: 12px 0; border-bottom: 1px solid var(--line); }
   .rows div:first-child { border-top: 1px solid var(--line); }
   .rows dt { color: var(--dim); font-size: 13px; padding-top: 2px; }

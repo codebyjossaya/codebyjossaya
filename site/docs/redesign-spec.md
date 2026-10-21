@@ -42,26 +42,26 @@ Left (sticky):
 2. Name "Jossaya Camille" in Plex Mono Bold with a purple blinking block cursor. On load the name **types in** (~60ms/char), cursor keeps blinking.
 3. "Software Engineer Intern @ AD Vantage" (no dot/icon before it).
 4. No short bio line under the name (owner rejected it).
-5. Nav: `about`, `contact`, `experience`, `projects`, `other stuff`, `friends` (+ `writing` only when a post exists). **No section numbers anywhere** (owner: "we can count"). Active = brighter text plus a 1px, 40px line to its left (only the active item has a line). On section change the old label fades out and its line shrinks to 0 while the new label fades in and its line grows to 40px (250ms ease-out); jumps (e.g. about → friends) crossfade directly, labels in between never light up.
+5. Nav: `about`, `experience`, `projects`, `other stuff`, `friends` (+ `writing` only when a post exists). **No section numbers anywhere** (owner: "we can count"). Active = brighter text plus a 1px, 40px line to its left (only the active item has a line). On section change the old label fades out and its line shrinks to 0 while the new label fades in and its line grows to 40px (250ms ease-out); jumps (e.g. about → friends) crossfade directly, labels in between never light up.
 6. (No screen counter.)
 7. Socials: github, linkedin, devpost, `resume.pdf ↓` (accent).
 8. Above the ⌘K hint (mobile: bottom of header): Psalm 150:6, **ESV**, full verse in muted italic Inter 13px — "Let everything that has breath praise the LORD! Praise the LORD!" — with `psalm 150:6` in dim Plex Mono 11px below. Editable in the dashboard profile screen.
 9. Hint chip: `⌘K  jump anywhere, right-click for more`.
 
-Right (sections, in this order): about, contact, experience, projects, other stuff i'm up to, friends, (writing — hidden until first post), footer.
+Right (sections, in this order): about (prose + skills + contact rows), experience, projects, other stuff i'm up to, friends, (writing — hidden until first post), footer.
 
 Mobile: sticky top bar (`~/jossaya` + `menu ⌘` button), header (photo, name, currently, socials), then sections stacked. Experience rows stack date above content.
 
 ### Sections content
 
-**about**
+**about** — one section; the former `contact` section is merged into it (no separate label, no nav entry).
 > I'm Jossaya, a second-year computer engineering student at UF. For the last few years, I have been exploring my passion for applied machine learning and computer vision through research experience, coursework, and personal projects.
 >
 > I'm also drawn to software engineering, full-stack web development, and embedded systems.
 
 (The LinkedIn "always down to connect…" line was intentionally dropped.) Skills: a grid of monochrome brand icons (simple-icons, rendered at build time, no runtime JS) with the name in small mono underneath, like the old site's skills grid; grey, brightening on hover. List: Python, TypeScript, JavaScript, React, Node.js, Electron, C, C++, PyTorch, OpenCV, Postgres, Firebase, Docker, Cloudflare, Git, GitHub, Linux, EndeavourOS, Neovim (VS Code dropped: no icon in simple-icons).
 
-**contact** — rows with hairline dividers, label column + value: email `jossayacamille@gmail.com` (plain text, with copy button), github.com/codebyjossaya, linkedin.com/in/jossayacamille, devpost (https://devpost.com/jossaya), resume.pdf (download). `jcamille.dev/resume` redirects (302, via `public/_redirects`) to the PDF so it opens in the browser.
+Contact rows, at the tail of the about section (no heading of their own) — rows with hairline dividers, label column + value: email `jossayacamille@gmail.com` (plain text, with copy button), github.com/codebyjossaya, linkedin.com/in/jossayacamille, devpost (https://devpost.com/jossaya), resume.pdf (download). `jcamille.dev/resume` redirects (302, via `public/_redirects`) to the PDF so it opens in the browser.
 
 **experience** — no cards; rows with bottom divider, date column left (mono), role `@ org` (org accent + ↗ on hover), one short summary, `#tags`. From resume (`~/Downloads/main.tex`):
 1. Sep 2026 — now · Software Engineer Intern @ AD Vantage — coach search: UI, Postgres, REST.
@@ -102,7 +102,7 @@ Dashboard friends screen: a single "group photo" field (replace, adjust crop, al
 
 ## Interaction
 
-- **Screen transitions (all devices)**: the page itself doesn't scroll. Sections are grouped into 6 screens: (1) about, (2) contact, (3) experience, (4) projects slideshow, (5) other stuff i'm up to, (6) friends + photo + footer. A wheel notch / trackpad swipe / `j` `k` / arrows / PgUp/PgDn slides the current screen up and out while the next rises in from below — flat vertical motion like a painted wheel seen face-on (no tilt, no 3D depth), ~0.62s ease-out; input re-enables ~0.45s after a turn starts, one screen per gesture, trackpad momentum from the same swipe is ignored but a new swipe turns immediately. Each screen's content animates in every time it arrives. Tall screens scroll inside first, then turn. Phones/tablets use the same screen transitions: the header (photo, name, links, verse) is the first screen, and a vertical swipe past the edge of the current screen turns it (tall screens scroll inside first).
+- **Screen transitions (all devices)**: the page itself doesn't scroll. Sections are grouped into 5 screens: (1) about (prose, skills, contact rows), (2) experience, (3) projects slideshow, (4) other stuff i'm up to, (5) friends + photo + footer. A wheel notch / trackpad swipe / `j` `k` / arrows / PgUp/PgDn slides the current screen up and out while the next rises in from below — flat vertical motion like a painted wheel seen face-on (no tilt, no 3D depth), ~0.62s ease-out; input re-enables ~0.45s after a turn starts, one screen per gesture, trackpad momentum from the same swipe is ignored but a new swipe turns immediately. Each screen's content animates in every time it arrives. Tall screens scroll inside first, then turn. Phones/tablets use the same screen transitions: the header (photo, name, links, verse) is the first screen, and a vertical swipe past the edge of the current screen turns it (tall screens scroll inside first).
 - **Reduced motion**: the owner's machine has it on and wants animations anyway, so the grid warp, screen transitions, fades and slideshow autoplay are NOT disabled by `prefers-reduced-motion`.
 - **⌘K palette**: centered panel, `>` prompt, results with verb column (go to / open / copy / download / visit) and shortcut hints; includes "visit a random friend's site" and a hidden `sudo` easter egg ("nice try.").
 - **Right-click menu**: custom context menu (section names, copy email, view source, open ⌘K); active section highlighted. Shift+right-click opens the native menu. Long-press on mobile.
@@ -112,7 +112,7 @@ Dashboard friends screen: a single "group photo" field (replace, adjust crop, al
 ## Dashboard (`/admin`)
 
 Goal: "everything on the site as editable as possible." Screens (see Figma Dashboard page):
-- content: posts (list), post editor (markdown + live preview, slug/tags/date/cover, autosave, preview/schedule/publish), profile (photo + crop, name, tab title, currently line, typing toggle, about markdown, stack tags), contact (links + per-link visibility in sidebar/contact/⌘K/right-click, email copy toggle), experience (drag reorder, role/company/dates/link/summary/tags/visible), projects (featured vs more groups, drag between, slide number, image upload + desktop/mobile crop focus, featured toggle, auto-advance toggle), friends (name/site/one-liner, fetch description from site, weekly broken-link check, intro line), resume (upload, filename, link label, version history/restore, optional build from main.tex).
+- content: posts (list), post editor (markdown + live preview, slug/tags/date/cover, autosave, preview/schedule/publish), profile (photo + crop, name, tab title, currently line, typing toggle, about markdown, stack tags), contact (links + per-link visibility in sidebar/about/⌘K/right-click, email copy toggle; stays its own dashboard screen, editing the contact rows that now live inside about), experience (drag reorder, role/company/dates/link/summary/tags/visible), projects (featured vs more groups, drag between, slide number, image upload + desktop/mobile crop focus, featured toggle, auto-advance toggle), friends (name/site/one-liner, fetch description from site, weekly broken-link check, intro line), resume (upload, filename, link label, version history/restore, optional build from main.tex).
 - site: sections (order, visibility, labels, auto-hide when empty, "starts a new screen" for scroll snap, layout/sidebar width), appearance (accent presets + custom, background, fonts, grid toggle/opacity, cursor glow, blinking cursor, fade-ins), commands & menus (table of commands, shortcuts, ⌘K/right-click visibility), seo & sharing (title, description, OG image auto/upload, favicon, Cloudflare Web Analytics), footer & 404 text, deploys (history, status, rollback).
 - Layout itself is not editable beyond order/visibility/sidebar width (keeps the design from drifting).
 
