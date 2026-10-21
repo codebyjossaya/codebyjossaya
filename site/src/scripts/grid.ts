@@ -8,6 +8,11 @@ const BASE = "rgba(255,255,255,0.045)";
 const GLOW = [243, 234, 255]; // #f3eaff
 const GLOW_ALPHA = 0.24;
 const STEP = 6; // sampling step for bent lines
+const ACCENT = [194, 122, 255]; // #c27aff
+const RIPPLE_MS = 900; // how long a click wave takes to cross the screen
+const RIPPLE_WARP = 18; // px of displacement at the crest
+const BAND = 90; // half-width of the crest, in px
+const MAX_RIPPLES = 3;
 
 const canvas = document.getElementById("grid") as HTMLCanvasElement | null;
 const ctx = canvas?.getContext("2d");
@@ -21,6 +26,16 @@ if (canvas && ctx) {
   let amp = 0, ampTarget = 0; // warp amount 0..1
   let glow = 0, glowTarget = 0; // glow visibility 0..1
   let raf = 0;
+  // click waves: each one is a purple crest travelling out from where it started
+  type Ripple = { x: number; y: number; t0: number };
+  let ripples: Ripple[] = [];
+  let now = 0; // frame time, shared by warp() and draw()
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+  const span = () => Math.hypot(w, h); // distance a wave covers in RIPPLE_MS
+  const crest = (rp: Ripple) => {
+    const p = Math.min(1, (now - rp.t0) / RIPPLE_MS);
+    return { p, r: p * span(), life: (1 - p) * (1 - p) };
+  };
 
   const resize = () => {
     dpr = Math.min(devicePixelRatio || 1, 2);
@@ -30,21 +45,38 @@ if (canvas && ctx) {
     draw();
   };
 
-  // displacement of point (x, y) away from the lens center
+  // displacement of point (x, y): the lens pushes it away from the cursor, and
+  // each live click wave pushes it outward as the crest passes through
   const warp = (x: number, y: number): [number, number] => {
+    let ox = x, oy = y;
     const dx = x - lx, dy = y - ly;
     const r = Math.hypot(dx, dy);
-    if (r >= RADIUS || r === 0) return [x, y];
-    const t = 1 - (r / RADIUS) ** 2;
-    const d = WARP * amp * t * t;
-    return [x + (dx / r) * d, y + (dy / r) * d];
+    if (r > 0 && r < RADIUS) {
+      const t = 1 - (r / RADIUS) ** 2;
+      const d = WARP * amp * t * t;
+      ox += (dx / r) * d; oy += (dy / r) * d;
+    }
+    if (!reduced.matches) {
+      for (const rp of ripples) {
+        const ex = x - rp.x, ey = y - rp.y;
+        const er = Math.hypot(ex, ey);
+        if (er === 0) continue;
+        const { r: cr, life } = crest(rp);
+        const u = (er - cr) / BAND;
+        if (u < -2.5 || u > 2.5) continue;
+        const d = RIPPLE_WARP * life * Math.exp(-u * u);
+        ox += (ex / er) * d; oy += (ey / er) * d;
+      }
+    }
+    return [ox, oy];
   };
 
   const linePaths = (bentOnly: boolean) => {
     ctx.beginPath();
     const near = (v: number, c: number) => Math.abs(v - c) < RADIUS + WARP;
+    const waving = ripples.length > 0;
     for (let x = 0.5; x <= w; x += CELL) {
-      const bend = amp > 0.001 && near(x, lx);
+      const bend = waving || (amp > 0.001 && near(x, lx));
       if (bentOnly && !near(x, lx)) continue;
       if (!bend) { ctx.moveTo(x, 0); ctx.lineTo(x, h); continue; }
       ctx.moveTo(x, 0);
@@ -52,7 +84,7 @@ if (canvas && ctx) {
       ctx.lineTo(x, h);
     }
     for (let y = 0.5; y <= h; y += CELL) {
-      const bend = amp > 0.001 && near(y, ly);
+      const bend = waving || (amp > 0.001 && near(y, ly));
       if (bentOnly && !near(y, ly)) continue;
       if (!bend) { ctx.moveTo(0, y); ctx.lineTo(w, y); continue; }
       ctx.moveTo(0, y);
@@ -62,6 +94,7 @@ if (canvas && ctx) {
   };
 
   const draw = () => {
+    now = performance.now();
     ctx.clearRect(0, 0, w, h);
     ctx.lineWidth = 1;
     ctx.strokeStyle = BASE;
@@ -76,17 +109,30 @@ if (canvas && ctx) {
       linePaths(true);
       ctx.stroke();
     }
+    // the crest itself: a purple ring of light riding over the whole grid
+    const [ar, ag, ab] = ACCENT;
+    for (const rp of ripples) {
+      const { r, life } = crest(rp);
+      const g = ctx.createRadialGradient(rp.x, rp.y, Math.max(0, r - BAND), rp.x, rp.y, r + BAND);
+      g.addColorStop(0, `rgba(${ar},${ag},${ab},0)`);
+      g.addColorStop(0.5, `rgba(${ar},${ag},${ab},${0.55 * life})`);
+      g.addColorStop(1, `rgba(${ar},${ag},${ab},0)`);
+      ctx.strokeStyle = g;
+      linePaths(false);
+      ctx.stroke();
+    }
   };
 
   const tick = () => {
     raf = 0;
+    ripples = ripples.filter((rp) => performance.now() - rp.t0 < RIPPLE_MS);
     if (lx < -1e3) { lx = tx; ly = ty; }
     lx += (tx - lx) * 0.18;
     ly += (ty - ly) * 0.18;
     amp += (ampTarget - amp) * 0.12;
     glow += (glowTarget - glow) * 0.15;
     draw();
-    const settled =
+    const settled = !ripples.length &&
       Math.abs(tx - lx) < 0.1 && Math.abs(ty - ly) < 0.1 &&
       Math.abs(ampTarget - amp) < 0.002 && Math.abs(glowTarget - glow) < 0.002;
     if (!settled) raf = requestAnimationFrame(tick);
@@ -106,6 +152,17 @@ if (canvas && ctx) {
   document.documentElement.addEventListener("pointerleave", () => {
     glowTarget = 0; ampTarget = 0; kick();
   });
+
+  // clicking the page itself (not a control) drops a wave at the pointer
+  const CONTROLS = "a, button, input, textarea, select, label, dialog, [role=option], [data-ctx], [data-stage], [tabindex]:not(.screen)";
+  addEventListener("pointerdown", (e) => {
+    if (e.button !== 0) return;
+    if (e.target instanceof Element && e.target.closest(CONTROLS)) return;
+    if (getSelection()?.toString()) return; // dismissing a selection isn't a click on the grid
+    ripples.push({ x: e.clientX, y: e.clientY, t0: performance.now() });
+    if (ripples.length > MAX_RIPPLES) ripples.shift();
+    kick();
+  }, { passive: true });
 
   addEventListener("resize", resize);
   resize();
