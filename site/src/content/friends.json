@@ -1,0 +1,34 @@
+{
+  "intro": "people i build with, learn from, and bother.",
+  "people": [
+    {
+      "name": "Zachary Lopez",
+      "url": "https://zachl.tech",
+      "line": "computer engineer & software developer"
+    },
+    {
+      "name": "Makai Pindell",
+      "url": "https://makaip.com",
+      "line": "ML enthusiast and software developer"
+    },
+    {
+      "name": "Amarnath Patel",
+      "url": "https://apatel.co",
+      "line": "physics (optics & lasers) and math at UCF"
+    },
+    {
+      "name": "Eoghan McIvor",
+      "url": "https://eoghan.codes",
+      "line": "full stack engineer into robotics and embedded systems software"
+    },
+    {
+      "name": "Alex Castronovo",
+      "url": "https://alexcastronovo.com",
+      "line": "programmer, neuroscience researcher, satellite subsystem lead"
+    }
+  ],
+  "photo": {
+    "image": "/img/friends-photo.webp",
+    "alt": "Jossaya and friends around a restaurant table"
+  }
+}

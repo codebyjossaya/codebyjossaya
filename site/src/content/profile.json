@@ -1,0 +1,117 @@
+{
+  "name": "Jossaya Camille",
+  "title": "Jossaya Camille",
+  "currently": "Software Engineer Intern @ AD Vantage",
+  "photo": "/img/headshot.webp",
+  "photoAlt": "Jossaya Camille",
+  "typing": true,
+  "verse": {
+    "text": "Let everything that has breath praise the LORD! Praise the LORD!",
+    "ref": "psalm 150:6"
+  },
+  "about": [
+    "I'm Jossaya, a second-year computer engineering student at UF. For the last few years, I have been exploring my passion for applied machine learning and computer vision through research experience, coursework, and personal projects.",
+    "I'm also drawn to software engineering, full-stack web development, and embedded systems."
+  ],
+  "email": "jossayacamille@gmail.com",
+  "links": [
+    {
+      "label": "github",
+      "display": "github.com/codebyjossaya",
+      "url": "https://github.com/codebyjossaya",
+      "icon": "siGithub"
+    },
+    {
+      "label": "linkedin",
+      "display": "linkedin.com/in/jossayacamille",
+      "url": "https://www.linkedin.com/in/jossayacamille",
+      "icon": "linkedin"
+    },
+    {
+      "label": "devpost",
+      "display": "devpost.com/jossaya",
+      "url": "https://devpost.com/jossaya",
+      "icon": "siDevpost"
+    }
+  ],
+  "resume": "/Jossaya_Camille_Resume.pdf",
+  "source": "https://github.com/codebyjossaya/codebyjossaya",
+  "skills": [
+    {
+      "icon": "siPython",
+      "name": "Python"
+    },
+    {
+      "icon": "siTypescript",
+      "name": "TypeScript"
+    },
+    {
+      "icon": "siJavascript",
+      "name": "JavaScript"
+    },
+    {
+      "icon": "siReact",
+      "name": "React"
+    },
+    {
+      "icon": "siNodedotjs",
+      "name": "Node.js"
+    },
+    {
+      "icon": "siElectron",
+      "name": "Electron"
+    },
+    {
+      "icon": "siC",
+      "name": "C"
+    },
+    {
+      "icon": "siCplusplus",
+      "name": "C++"
+    },
+    {
+      "icon": "siPytorch",
+      "name": "PyTorch"
+    },
+    {
+      "icon": "siOpencv",
+      "name": "OpenCV"
+    },
+    {
+      "icon": "siPostgresql",
+      "name": "Postgres"
+    },
+    {
+      "icon": "siFirebase",
+      "name": "Firebase"
+    },
+    {
+      "icon": "siDocker",
+      "name": "Docker"
+    },
+    {
+      "icon": "siCloudflare",
+      "name": "Cloudflare"
+    },
+    {
+      "icon": "siGit",
+      "name": "Git"
+    },
+    {
+      "icon": "siGithub",
+      "name": "GitHub"
+    },
+    {
+      "icon": "siLinux",
+      "name": "Linux"
+    },
+    {
+      "icon": "siEndeavouros",
+      "name": "EndeavourOS"
+    },
+    {
+      "icon": "siNeovim",
+      "name": "Neovim"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+---
+// Crossfading slideshow shared by projects and friend photos.
+// Slides are passed as children (.slide elements); `groups` splits the dots
+// into a featured group and a "more" group.
+interface Props { label: string; count: number; groups?: number[] }
+const { label, count, groups = [count] } = Astro.props;
+let n = 0;
+const dotGroups = groups.map((size) => Array.from({ length: size }, () => n++));
+---
+<div class="show" data-show aria-roledescription="carousel" aria-label={label}>
+  <div class="stage" data-stage aria-live="polite">
+    <slot />
+  </div>
+  <div class="nav mono">
+    <button class="arrow" data-prev aria-label="previous slide">←</button>
+    <div class="dots">
+      {dotGroups.map((group) => (
+        <span class="group">
+          {group.map((i) => (
+            <button class="dot" data-dot={i} aria-label={`slide ${i + 1} of ${count}`}></button>
+          ))}
+        </span>
+      ))}
+    </div>
+    <button class="arrow" data-next aria-label="next slide">→</button>
+  </div>
+</div>
+
+<style>
+  .stage { display: grid; grid-template-columns: minmax(0, 1fr); touch-action: pan-y; }
+  .stage > :global(.slide) { grid-area: 1 / 1; opacity: 0; visibility: hidden; transition: opacity .5s ease, visibility 0s linear .5s; }
+  .stage > :global(.slide.on) { opacity: 1; visibility: visible; transition: opacity .5s ease; }
+  .nav { display: flex; align-items: center; justify-content: center; gap: 20px; margin-top: 22px; color: var(--muted); font-size: 13px; }
+  .arrow { display: grid; place-items: center; width: 36px; height: 36px; font-size: 20px; line-height: 1; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; transition: color .2s, border-color .2s; }
+  .arrow:hover { color: var(--text); border-color: var(--dim); }
+  .dots { display: flex; gap: 9px; }
+  .group { display: flex; gap: 9px; align-items: center; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--dim); transition: background .2s; }
+  .dot:hover { background: var(--muted); }
+  .dot[aria-current="true"] { background: var(--text); }
+</style>
+
+<script>
+  import { initSlideshows } from "../scripts/slideshow";
+  initSlideshows();
+</script>

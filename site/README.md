@@ -1,79 +1,40 @@
-# Welcome to React Router!
+# jcamille.dev
 
-A modern, production-ready template for building full-stack React applications using React Router.
+Personal site. Astro (static output) served as Cloudflare Workers static assets.
 
-## Features
-
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
-
-## Getting Started
-
-### Installation
-
-Install the dependencies:
+## Develop
 
 ```bash
 npm install
+npm run dev        # http://localhost:4321
+npm run build      # outputs dist/
+npm run preview    # build + wrangler dev (Workers runtime locally)
+npm run check      # astro check (types)
 ```
 
-### Development
+## Content
 
-Start the development server with HMR:
+Everything on the page comes from `src/content/`:
 
-```bash
-npm run dev
-```
+| file | what |
+|---|---|
+| `profile.json` | name, "currently" line, about, skills, links, verse, resume path |
+| `experience.json` | experience rows |
+| `projects.json` | project slides (`featured` puts them in the first dot group) |
+| `other.json` | "other stuff i'm up to" rows |
+| `friends.json` | friends list + group photo |
+| `posts/*.md` | writing; the section and nav item appear only once a post exists |
 
-Your application will be available at `http://localhost:5173`.
+Images live in `public/img/` as WebP with metadata stripped. `public/_redirects` maps `/resume` to the PDF.
 
-## Previewing the Production Build
+## Code
 
-Preview the production build locally:
+- `src/pages/index.astro` – layout and markup
+- `src/scripts/main.ts` – screen transitions (wheel/trackpad/keys/touch), nav, ⌘K palette, right-click menu
+- `src/scripts/grid.ts` – canvas background grid with the cursor lens
+- `src/scripts/slideshow.ts` + `src/components/Slideshow.astro` – projects slideshow
 
-```bash
-npm run preview
-```
+## Deploy
 
-## Building for Production
-
-Create a production build:
-
-```bash
-npm run build
-```
-
-## Deployment
-
-Deployment is done using the Wrangler CLI.
-
-To build and deploy directly to production:
-
-```sh
-npm run deploy
-```
-
-To deploy a preview URL:
-
-```sh
-npx wrangler versions upload
-```
-
-You can then promote a version to production after verification or roll it out progressively.
-
-```sh
-npx wrangler versions deploy
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
----
-
-Built with ❤️ using React Router.
+Workers Builds deploys `main` to production and uploads a preview version for every other branch
+(`<branch>-website.jossayacamille.workers.dev`). Design decisions are recorded in `docs/redesign-spec.md`.

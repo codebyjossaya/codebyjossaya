@@ -1,0 +1,35 @@
+---
+import "@fontsource/ibm-plex-mono/latin-400.css";
+import "@fontsource/ibm-plex-mono/latin-700.css";
+import "@fontsource-variable/inter/wght.css";
+import "@fontsource-variable/inter/wght-italic.css";
+import "../styles/global.css";
+import profile from "../content/profile.json";
+
+interface Props { title?: string; description?: string }
+const {
+  title = profile.title,
+  description = `${profile.name}: ${profile.currently}. Computer engineering student at UF.`,
+} = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b0b0d" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <link rel="icon" href="/favicon.ico" />
+    <script is:inline>document.documentElement.classList.add("js")</script>
+  </head>
+  <body>
+    <canvas id="grid" aria-hidden="true"></canvas>
+    <slot />
+    <script>
+      import "../scripts/grid";
+    </script>
+  </body>
+</html>
