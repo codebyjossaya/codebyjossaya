@@ -207,8 +207,8 @@ const say = (msg: string) => {
   clearTimeout(toastTimer);
   toastTimer = window.setTimeout(() => toast.classList.remove("on"), 1600);
 };
-const copy = async (text: string) => {
-  try { await navigator.clipboard.writeText(text); say("copied"); } catch { say(text); }
+const copy = async (text: string, toast = true) => {
+  try { await navigator.clipboard.writeText(text); if (toast) say("copied"); } catch { say(text); }
 };
 const friendUrls: string[] = JSON.parse($("#friend-urls")?.textContent || "[]");
 
@@ -223,7 +223,27 @@ const run = (cmd: string) => {
   else if (kind === "palette") openPalette();
 };
 
-$$<HTMLButtonElement>("[data-copy]").forEach((b) => b.addEventListener("click", () => copy(b.dataset.copy!)));
+$$<HTMLButtonElement>("[data-copy]").forEach((b) =>
+  b.addEventListener("click", () => copy(b.dataset.copy!, !b.hasAttribute("data-quiet"))));
+
+/* ---------- email envelope ----------
+   Hover (or focus) opens the lid and fades the address in; a click snaps the
+   card to green "copied" with no transition, then lets it fade back. */
+const mailbox = $("[data-mail]");
+if (mailbox) {
+  const env = $(".env", mailbox)!;
+  const open = (on: boolean) => mailbox.classList.toggle("open", on);
+  env.addEventListener("pointerenter", (e) => { if ((e as PointerEvent).pointerType === "mouse") open(true); });
+  env.addEventListener("pointerleave", () => open(false));
+  env.addEventListener("focus", () => open(true));
+  env.addEventListener("blur", () => open(false));
+  let back: number | undefined;
+  env.addEventListener("click", () => {
+    mailbox.classList.add("copied");
+    clearTimeout(back);
+    back = window.setTimeout(() => mailbox.classList.remove("copied"), 1300);
+  });
+}
 
 /* ---------- ⌘K palette ---------- */
 const dialog = $<HTMLDialogElement>("[data-palette]")!;
