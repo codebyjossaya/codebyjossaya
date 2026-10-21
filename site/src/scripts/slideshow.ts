@@ -42,7 +42,13 @@ export function initSlideshows() {
     const sync = () => root.classList.toggle("paused", hovering || !visible);
     root.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") { hovering = true; sync(); } });
     root.addEventListener("pointerleave", () => { hovering = false; sync(); });
-    new IntersectionObserver(([e]) => { visible = e.isIntersecting; sync(); }, { threshold: 0.4 }).observe(root);
+    // in screen mode an off-screen screen is only translated + hidden, which an
+    // IntersectionObserver can't see, so also require the screen to be current
+    let inView = false;
+    const screen = root.closest(".screen");
+    const update = () => { visible = inView && (!screen || !document.documentElement.classList.contains("wheel") || screen.classList.contains("cur")); sync(); };
+    new IntersectionObserver(([e]) => { inView = e.isIntersecting; update(); }, { threshold: 0.4 }).observe(root);
+    if (screen) new MutationObserver(update).observe(screen, { attributes: true, attributeFilter: ["class"] });
 
     // swipe
     const stage = root.querySelector<HTMLElement>("[data-stage]")!;

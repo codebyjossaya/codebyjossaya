@@ -5,7 +5,7 @@ const $$ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document
 const typed = $("[data-type]");
 if (typed) {
   const name = typed.dataset.type!;
-  typed.setAttribute("aria-label", name);
+  typed.closest("h1")?.setAttribute("aria-label", name);
   typed.textContent = "";
   let n = 0;
   const step = () => {
@@ -46,13 +46,9 @@ const activeIn = (list: HTMLElement[], top: number, atEnd: boolean) => {
   return atEnd ? list.at(-1)!.id : id;
 };
 const syncActive = () => {
-  if (root.classList.contains("wheel")) {
-    const sc = screens[cur];
-    const list = $$("[data-section]", sc);
-    setActive(activeIn(list, innerHeight * 0.35, sc.scrollTop + sc.clientHeight >= sc.scrollHeight - 2 && sc.scrollTop > 0));
-  } else {
-    setActive(activeIn(sections, innerHeight * 0.35, innerHeight + scrollY >= root.scrollHeight - 2));
-  }
+  const sc = screens[cur];
+  const list = $$("[data-section]", sc);
+  setActive(activeIn(list, innerHeight * 0.35, sc.scrollTop + sc.clientHeight >= sc.scrollHeight - 2 && sc.scrollTop > 0));
 };
 
 const reveal = (sc: Element) => sc.classList.add("shown");
@@ -65,6 +61,12 @@ const place = (n: number, dir: 1 | -1 | 0) => {
     sc.toggleAttribute("inert", k !== n);
   });
   const sc = screens[n];
+  // keep keyboard focus out of screens that just went inert
+  const f = document.activeElement;
+  if (f instanceof HTMLElement && f !== document.body && screens.some((s, k) => k !== n && s.contains(f))) {
+    sc.setAttribute("tabindex", "-1");
+    sc.focus({ preventScroll: true });
+  }
   if (dir === -1) sc.scrollTop = sc.scrollHeight; // coming back up: start at its end
   else if (dir === 1) sc.scrollTop = 0;
   // replay the arrival animation each time a screen turns in
@@ -159,29 +161,28 @@ addEventListener("touchend", (e) => {
 
 addEventListener("wheel", onWheel, { passive: false });
 [side, ...baseScreens].forEach((sc) => sc.addEventListener("scroll", () => { if (sc === screens[cur]) { syncActive(); closeMenu(); } }, { passive: true }));
-let ticking = false;
-addEventListener("scroll", () => {
-  if (ticking) return;
-  ticking = true;
-  requestAnimationFrame(() => { ticking = false; syncActive(); });
-}, { passive: true });
 
 const goTo = (id: string) => {
   const el = document.getElementById(id);
   if (!el) return;
+  const n = screens.findIndex((s) => s.contains(el));
+  if (n < 0) return;
   history.replaceState(null, "", `#${id}`);
-  if (root.classList.contains("wheel")) {
-    const n = screens.findIndex((s) => s.contains(el));
-    turn(n);
-    const sc = screens[n];
-    const first = sc.querySelector("[data-section]") === el;
-    sc.scrollTo({ top: first ? 0 : el.offsetTop - 96, behavior: "smooth" });
-    setActive(id);
-    return;
-  }
-  el.scrollIntoView({ behavior: "smooth", block: "start" });
+  turn(n);
+  const sc = screens[n];
+  const first = sc.querySelector("[data-section]") === el;
+  sc.scrollTo({ top: first ? 0 : el.offsetTop - 96, behavior: "smooth" });
+  setActive(id);
 };
-navLinks.forEach((a, id) => a.addEventListener("click", (e) => { e.preventDefault(); goTo(id); }));
+// the page doesn't scroll, so in-page links go through goTo; "#top" is the first screen
+addEventListener("click", (e) => {
+  const a = e.target instanceof Element && e.target.closest<HTMLAnchorElement>('a[href^="#"]');
+  if (!a || e.defaultPrevented) return;
+  e.preventDefault();
+  const id = a.getAttribute("href")!.slice(1);
+  if (!id || id === "top") { history.replaceState(null, "", location.pathname); turn(0); }
+  else goTo(id);
+});
 
 const typing = (t: EventTarget | null) =>
   t instanceof HTMLElement && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));
@@ -195,8 +196,7 @@ const jump = (dir: 1 | -1) => {
   else turn(cur + dir);
 };
 
-const applyMode = () => enableWheel();
-mobile.addEventListener("change", applyMode);
+mobile.addEventListener("change", enableWheel);
 
 /* ---------- toast + actions ---------- */
 const toast = $("[data-toast]")!;
@@ -295,8 +295,7 @@ addEventListener("contextmenu", (e) => {
 });
 $$<HTMLButtonElement>("[data-run]", menu).forEach((b) => b.addEventListener("click", () => { closeMenu(); run(b.dataset.run!); }));
 addEventListener("pointerdown", (e) => { if (!menu.hidden && !menu.contains(e.target as Node)) closeMenu(); });
-addEventListener("scroll", () => { if (!menu.hidden) closeMenu(); }, { passive: true });
-applyMode();
+enableWheel();
 addEventListener("resize", closeMenu);
 
 // long-press on touch opens the same menu (outside links/buttons)
@@ -323,7 +322,10 @@ addEventListener("keydown", (e) => {
     if (s) { e.preventDefault(); goTo(s.id); }
     return;
   }
-  if (!root.classList.contains("wheel")) return;
+  // let Space/arrows act on focused controls (buttons, links) as usual
+  if (e.target instanceof Element && e.target.closest("button, a, [role=option], [tabindex]:not(.screen)")) {
+    if (e.key === " " || e.key === "Enter") return;
+  }
   const down = ["j", "PageDown", "ArrowDown"].includes(e.key) || (e.key === " " && !e.shiftKey);
   const up = ["k", "PageUp", "ArrowUp"].includes(e.key) || (e.key === " " && e.shiftKey);
   if (down || up) { e.preventDefault(); jump(down ? 1 : -1); }

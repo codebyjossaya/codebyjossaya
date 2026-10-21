@@ -34,7 +34,7 @@ const social = [...profile.links];
 ---
 <Base>
   <div class="topbar mono">
-    <a href="#about">~/jossaya</a>
+    <a href="#top">~/jossaya</a>
     <button data-open-palette>menu ⌘</button>
   </div>
 
@@ -305,6 +305,7 @@ const social = [...profile.links];
     opacity: 0; visibility: hidden;
   }
   :global(html.wheel) .screen::-webkit-scrollbar { display: none; }
+  .screen:focus { outline: none; }
   :global(html.wheel) .screen.above { transform: translateY(-55vh); }
   :global(html.wheel) .screen.below { transform: translateY(55vh); }
   :global(html.wheel) .screen.cur { transform: none; opacity: 1; visibility: visible; transition: transform .62s cubic-bezier(.22,.8,.24,1), opacity .4s ease .04s; }
