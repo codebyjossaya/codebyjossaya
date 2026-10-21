@@ -64,7 +64,6 @@ const social = profile.links.map((l) => ({ ...l, path: l.icon === "linkedin" ? l
           ))}
         </ul>
         <div class="reach mono">
-          <button class="mail" data-copy={profile.email} title="copy email">{profile.email}</button>
           <a class="accent" href={profile.resume} download>resume.pdf ↓</a>
         </div>
         <figure class="verse">
@@ -221,8 +220,6 @@ const social = profile.links.map((l) => ({ ...l, path: l.icon === "linkedin" ? l
   .socials a:hover { color: var(--accent); }
   .socials svg { width: 20px; height: 20px; fill: currentColor; display: block; }
   .reach { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); display: flex; flex-direction: column; align-items: flex-start; gap: 6px; font-size: 13px; }
-  .mail { color: var(--muted); transition: color .2s; text-align: left; }
-  .mail:hover { color: var(--accent); }
   .accent { color: var(--accent); }
   .reach a.accent:hover { opacity: .8; }
   .verse { margin: 32px 0 20px; max-width: 340px; }
